@@ -3,41 +3,61 @@
 ## Eszközök konfigurációja
 
 Hibák:
-- VLANok nincsenek meg mindkét switchen (lehetőleg VTP-t kéne használni)
+- VLANok nincsenek meg minden switchen (lehetőleg VTP-t kéne használni)
+- Switch management IP-k nem követik teljesen a szabványt
+- Management VLAN 255 252 helyett
+- Switch config hiányos
+- Switch trunk port allowed vlanok túl engedékenyek
+- Router config hiányos, nincs kiadva az ipv6 unicast-routing
 
 SzF-R:
 ---
+Ellenőrző checklist:
+-  [ ] Hostname
+-  [ ] Banner
+-  [ ] IPv4
+-  [ ] IPv6
+-  [ ] Login, SSH and authentication
+-  [ ] NAT
+
 ```
 
 interface GigabitEthernet0/0.10
- encapsulation dot1Q 10
- ip address 10.1.10.1 255.255.255.0
- ipv6 address 2a:1dc:7c0:010A::1/64
+	encapsulation dot1Q 10
+	ip address 10.1.10.1 255.255.255.0
+	ipv6 address 2a:1dc:7c0:010A::1/64
  
 interface GigabitEthernet0/0.20
- encapsulation dot1Q 20
- ip address 10.1.20.1 255.255.255.0
- ipv6 address 2a:1dc:7c0:0114::1/64
+	encapsulation dot1Q 20
+	ip address 10.1.20.1 255.255.255.0
+	ipv6 address 2a:1dc:7c0:0114::1/64
  
 interface GigabitEthernet0/0.50
- encapsulation dot1Q 50
- ip address 10.1.50.1 255.255.255.0
- ipv6 address 2a:1dc:7c0:0132::1/64
+	encapsulation dot1Q 50
+	ip address 10.1.50.1 255.255.255.0
+	ipv6 address 2a:1dc:7c0:0132::1/64
  
 interface GigabitEthernet0/0.110
- encapsulation dot1Q 110
- ip address 10.1.110.1 255.255.252.0
- ipv6 address 2a:1dc:7c0:016E::1/64
+	encapsulation dot1Q 110
+	ip address 10.1.110.1 255.255.252.0
+	ipv6 address 2a:1dc:7c0:016E::1/64
  
 interface GigabitEthernet0/0.255
- encapsulation dot1Q 255
- ip address 10.1.252.1 255.255.252.0
- ipv6 address 2a:1dc:7c0:01FF::1/64
+	encapsulation dot1Q 255
+	ip address 10.1.252.1 255.255.252.0
+	ipv6 address 2a:1dc:7c0:01FF::1/64
 ```
  
 SzF-SW1:
 ---
-
+- [ ] Trunk portok, trunk allowed VLAN helyes konfigurációja
+- [ ] DHCP snooping limit
+- [ ] DHCP snooping trust
+- [ ] Storm control
+- [ ] Nonegotiate
+- [ ] Port security
+- [ ] Portfast
+- [ ] BPDU guard
 ```
 vlan 10
 	name Vezetok
@@ -86,9 +106,14 @@ exit
 
 SzF-SW2:
 ---
-
-
-
+- [ ] Trunk portok, trunk allowed VLAN helyes konfigurációja
+- [ ] DHCP snooping limit
+- [ ] DHCP snooping trust
+- [ ] Storm control
+- [ ] Nonegotiate
+- [ ] Port security
+- [ ] Portfast
+- [ ] BPDU guard
 ```
 vlan 20
 	name Tesztelok

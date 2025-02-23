@@ -11,9 +11,21 @@ prefix:telephely:vlan:ipv4
 
 Hibák:
 - VLANok nincsenek meg minden switchen (lehetőleg VTP-t kéne használni)
+- Switch management IP-k nem követik teljesen a szabványt
+- Switch config hiányos
+- Switch trunk port allowed vlanok túl engedékenyek
+- Router config hiányos, nincs kiadva az ipv6 unicast-routing
 
 TB-R:
 ---
+Ellenőrző checklist:
+-  [ ] Hostname
+-  [ ] Banner
+-  [x] IPv4
+-  [ ] IPv6
+-  [ ] Login, SSH and authentication
+-  [ ] NAT
+
 ```
 interface GigabitEthernet0/0.10
 	encapsulation dot1Q 10
@@ -46,7 +58,14 @@ interface GigabitEthernet0/0.252
 
 TB-EM1-LOGI:
 ---
-
+- [ ] Trunk portok, trunk allowed VLAN helyes konfigurációja
+- [ ] DHCP snooping limit
+- [ ] DHCP snooping trust
+- [ ] Storm control
+- [ ] Nonegotiate
+- [ ] Port security
+- [ ] Portfast
+- [ ] BPDU guard
 ```
 vlan 10
 	name GYAR
@@ -56,17 +75,19 @@ vlan 252
 interface range FastEthernet0/1-FastEthernet0/3
 	switchport mode access
 	switchport access vlan 10
-	no shu
+	no shutdown
 
-interface FastEthernet0/24
+! > TB-EM2-IRODA
+interface Gig0/2
 	switchport mode trunk
 	switchport trunk allowed vlan 10,20,30,150,252
-	no shu
-	
-! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	no shutdown
+
+! > TB-R
 interface Gig0/1 
 	sw mode trunk
 	switchport trunk allowed vlan 10,20,30,150,252
+	no shutdown
 
 interface vlan 252
 	ip address 10.3.252.2 255.255.255.0
@@ -75,7 +96,14 @@ interface vlan 252
 
 TB-EM2-IRODA:
 ---
-
+- [ ] Trunk portok, trunk allowed VLAN helyes konfigurációja
+- [ ] DHCP snooping limit
+- [ ] DHCP snooping trust
+- [ ] Storm control
+- [ ] Nonegotiate
+- [ ] Port security
+- [ ] Portfast
+- [ ] BPDU guard
 ```
 vlan 20
 	name IRODA 
@@ -87,7 +115,14 @@ interface range FastEthernet0/1-FastEthernet0/3
 	switchport access vlan 20
 	no shu
 
-interface FastEthernet0/24
+! > TB-EM1-LOGI
+interface Gig0/1
+	switchport mode trunk
+	switchport trunk allowed vlan 10,20,30,150,252
+	no shu
+
+! > TB-EM3-PARTNER
+interface Gig0/2
 	switchport mode trunk
 	switchport trunk allowed vlan 10,20,30,150,252
 	no shu
@@ -112,7 +147,7 @@ interface range FastEthernet0/1-FastEthernet0/3
 	switchport access vlan 30
 	no shu
 
-interface FastEthernet0/24
+interface Gig0/1
 	switchport mode trunk
 	switchport trunk allowed vlan 10,20,30,150,252
 	no shu
