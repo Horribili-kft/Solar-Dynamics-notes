@@ -21,36 +21,45 @@ TB-R:
 Ellenőrző checklist:
 -  [ ] Hostname
 -  [ ] Banner
--  [x] IPv4
+-  [ ] IPv4
 -  [ ] IPv6
 -  [ ] Login, SSH and authentication
 -  [ ] NAT
 
 ```
-interface GigabitEthernet0/0.10
-	encapsulation dot1Q 10
-	ip address 10.3.10.1 255.255.255.0
-	ipv6 address 2a:1dc:7c0:0310:3:10:1/64
+! > ISP
+interface GigabitEthernet0/1
+	no shutdown
 
-interface GigabitEthernet0/0.20
-	encapsulation dot1Q 20
-	ip address 10.3.20.1 255.255.255.0
-	ipv6 address 2a:1dc:7c0:0314:3:20:1/64
+! > SzF-SW1
+interface GigabitEthernet0/0
+	no shutdown
 
-interface GigabitEthernet0/0.30
-	encapsulation dot1Q 30
-	ip address 10.3.30.1 255.255.255.0
-	ipv6 address 2a:1dc:7c0:031E:3:30:1/64
-
-interface GigabitEthernet0/0.150
-	encapsulation dot1Q 150
-	ip address 10.3.150.1 255.255.255.0
-	ipv6 address 2a:1dc:7c0:0396:3:150:1/64
-
-interface GigabitEthernet0/0.252
-	encapsulation dot1Q 252
-	ip address 10.3.252.1 255.255.255.0
-	ipv6 address 2a:1dc:7c0:03FC:3:252:1/64
+! VLAN interfacek
+	interface GigabitEthernet0/0.10
+		encapsulation dot1Q 10
+		ip address 10.3.10.1 255.255.255.0
+		ipv6 address 2a:1dc:7c0:0310:3:10:1/64
+	
+	interface GigabitEthernet0/0.20
+		encapsulation dot1Q 20
+		ip address 10.3.20.1 255.255.255.0
+		ipv6 address 2a:1dc:7c0:0314:3:20:1/64
+	
+	interface GigabitEthernet0/0.30
+		encapsulation dot1Q 30
+		ip address 10.3.30.1 255.255.255.0
+		ipv6 address 2a:1dc:7c0:031E:3:30:1/64
+	
+	interface GigabitEthernet0/0.150
+		encapsulation dot1Q 150
+		ip address 10.3.150.1 255.255.255.0
+		ipv6 address 2a:1dc:7c0:0396:3:150:1/64
+	
+	interface GigabitEthernet0/0.252
+		encapsulation dot1Q 252
+		ip address 10.3.252.1 255.255.255.0
+		ipv6 address 2a:1dc:7c0:03FC:3:252:1/64
 
 ```
 
