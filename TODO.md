@@ -1,4 +1,0 @@
-- [ ] Finish MLS configurations
-- [ ] Finish switch configurations
-- [ ] Finish router configurations
-- [ ] Figure out DHCP snooping

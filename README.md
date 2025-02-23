@@ -1,2 +1,2 @@
 # Solar-Dynamics-notes
-Notes for the SolarDynamics project
+Notes and cisco configurations for the SolarDynamics project
