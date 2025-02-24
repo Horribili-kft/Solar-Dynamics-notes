@@ -166,7 +166,7 @@ ip ssh version 2
 	    ip address 10.0.20.1 255.255.255.0
 	    ipv6 address 2a:1dc:7c0:0014:10:0:20:1/64
 	    ipv6 eigrp 100
-		! DHCP relay
+	    ! DHCP relay
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
