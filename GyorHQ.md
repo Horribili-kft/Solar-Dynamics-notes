@@ -1,6 +1,17 @@
 #cisco #config
 MLS
 ---
+### SDM template
+You need to change the SDM template so that IPv6 is enabled.
+
+```
+en
+conf t
+sdm prefer dual-ipv4-and-ipv6 default
+do reload
+```
+
+
 ### HQ-MLS1
 
 Primary root bridge
