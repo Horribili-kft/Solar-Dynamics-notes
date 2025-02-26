@@ -50,8 +50,7 @@ ip access-list standard SD-ACL-internal-client
 permit 10.3.10.0 0.0.0.255
 permit 10.3.20.0 0.0.0.255
 permit 10.3.30.0 0.0.0.255
-permit 10.3.252.0 0.0.0.255
-permit 10.3.254.0 0.0.0.255
+permit 10.3.252.0 0.0.3.255
 exit
 		
 ip access-list standard SD-ACL-external-client
@@ -115,18 +114,10 @@ interface GigabitEthernet0/0.150
 
 interface GigabitEthernet0/0.252
  encapsulation dot1Q 252
- ip address 10.3.252.1 255.255.255.0
+ ip address 10.3.252.1 255.255.252.0
  ip nat inside
  ipv6 enable
  ipv6 address 2a:1dc:7c0:03FC:3:252:1/64
-
-
-interface GigabitEthernet0/0.254
- encapsulation dot1Q 254
- ip address 10.3.254.1 255.255.255.0
- ip nat inside
- ipv6 enable
- ipv6 address 2a:1dc:7c0:03FC:3:254:1/64
 
 
 interface GigabitEthernet0/1
@@ -163,7 +154,7 @@ vtp mode client
 vtp password Solar-Dynamics-2025
 
 ip dhcp snooping
-ip dhcp snooping vlan 10,20,30,150,252,254
+ip dhcp snooping vlan 10,20,30,150,252
 interface range FastEthernet0/1-FastEthernet0/3
 ip dhcp snooping limit rate 10
 
@@ -187,11 +178,11 @@ interface range FastEthernet0/1-FastEthernet0/3
 
 interface FastEthernet0/24
  switchport mode trunk
- switchport trunk allowed vlan 10,20,252,254
+ switchport trunk allowed vlan 10,20,252
  no shu
 
-interface vlan 254
- ip address 10.3.254.2 255.255.255.0
+interface vlan 252
+ ip address 10.3.254.2 255.255.252.0
  no shutdown
 
 ```
@@ -223,9 +214,7 @@ vtp password Solar-Dynamics-2025
 vlan 20
  name IRODA 
 vlan 252
- name Management-Router
-vlan 254
- name Management-Switch
+ name Management
 vlan 10
  name GYAR
 vlan 30
@@ -234,7 +223,7 @@ vlan 150
  name WIFI
 
 ip dhcp snooping
-ip dhcp snooping vlan 10,20,30,150,252,254
+ip dhcp snooping vlan 10,20,30,150,252
 interface range FastEthernet0/1-FastEthernet0/3
 ip dhcp snooping limit rate 10
 
@@ -250,7 +239,7 @@ ip dhcp snooping trust
 
 interface Gig0/1
  sw mode trunk
- switchport trunk allowed vlan 10,20,30,150,252,254
+ switchport trunk allowed vlan 10,20,30,150,252
  switchport nonegotiate
 
 interface range FastEthernet0/1-FastEthernet0/3
@@ -269,18 +258,18 @@ interface range FastEthernet0/1-FastEthernet0/3
 
 interface FastEthernet0/24
  switchport mode trunk
- switchport trunk allowed vlan 10,20,252,254
+ switchport trunk allowed vlan 10,20,252
  switchport nonegotiate
  no shu
 
 interface FastEthernet0/23
  switchport mode trunk
- switchport trunk allowed vlan 20,30,150,252,254
+ switchport trunk allowed vlan 20,30,150,252
  switchport nonegotiate
  no shu
 
-interface vlan 254
- ip address 10.3.254.3 255.255.255.0
+interface vlan 252
+ ip address 10.3.254.3 255.255.252.0
  no shu
 
 ```
@@ -309,7 +298,7 @@ vtp mode client
 vtp password Solar-Dynamics-2025
 
 ip dhcp snooping
-ip dhcp snooping vlan 10,20,30,150,252,254
+ip dhcp snooping vlan 10,20,30,150,252
 interface range FastEthernet0/1-FastEthernet0/3
 ip dhcp snooping limit rate 10
 
@@ -343,14 +332,14 @@ interface FastEthernet0/24
 
 interface FastEthernet0/23
  switchport mode trunk
- switchport trunk allowed vlan 20,30,150,252,254
+ switchport trunk allowed vlan 20,30,150,252
  switchport nonegotiate				!!!!!!
  ip dhcp snooping trust
  no shu
 
 
-interface vlan 254
- ip address 10.3.254.4 255.255.255.0
+interface vlan 252
+ ip address 10.3.254.4 255.255.252.0
  no shutdown
 
 ```
