@@ -51,6 +51,7 @@ permit 10.3.10.0 0.0.0.255
 permit 10.3.20.0 0.0.0.255
 permit 10.3.30.0 0.0.0.255
 permit 10.3.252.0 0.0.3.255
+
 exit
 		
 ip access-list standard SD-ACL-external-client
@@ -148,6 +149,7 @@ line vty 0 15
 login local
 transport input ssh
 ip ssh version 2
+
 
 vtp domain TATAB
 vtp mode client
@@ -293,6 +295,8 @@ transport input ssh
 ip ssh version 2
 
 
+
+
 vtp domain TATAB
 vtp mode client
 vtp password Solar-Dynamics-2025
@@ -336,6 +340,7 @@ interface FastEthernet0/23
  switchport nonegotiate				!!!!!!
  ip dhcp snooping trust
  no shu
+
 
 
 interface vlan 252
