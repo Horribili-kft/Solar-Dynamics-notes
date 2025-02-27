@@ -8,6 +8,7 @@ You need to change the SDM template so that IPv6 is enabled.
 en
 conf t
 sdm prefer dual-ipv4-and-ipv6 default
+do wr
 do reload
 ```
 
@@ -71,7 +72,8 @@ ip ssh version 2
 ! Layer 3 routing links
 
 	! LACP Etherchannel > MLS2
-	interface range gig3/0 - 3
+	! interface range gig3/0 - 3
+	interface range fa0/21-24 
 	    no switchport
 		channel-group 1 mode active
 		no shutdown
@@ -89,7 +91,8 @@ ip ssh version 2
 		! switchport trunk native vlan 999
 
 	! > R1
-	interface gig0/0
+	! interface gig0/0
+	interface fa0/1
 		no switchport
 		ip address 172.16.0.1 255.255.255.254
 		ipv6 enable
@@ -97,7 +100,8 @@ ip ssh version 2
 		no shutdown
 
 	! > R2
-	interface gig0/1
+	! interface gig0/1
+	interface fa0/2
 		no switchport
 		ip address 172.16.0.5 255.255.255.254
 		ipv6 enable
@@ -177,7 +181,7 @@ ip ssh version 2
 	    ip address 10.0.20.1 255.255.255.0
 	    ipv6 address 2a:1dc:7c0:0014:10:0:20:1/64
 	    ipv6 eigrp 100
-		! DHCP relay
+	    ! DHCP relay
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
@@ -330,7 +334,8 @@ ip ssh version 2
 ! Links to access layer switches
 
 	! > HQ-OFFICE-S1
-	interface gig0/2
+	! interface gig0/2
+	interface fa0/3
 		no shutdown
 		switchport trunk encapsulation dot1q  
 		switchport mode trunk
@@ -341,7 +346,8 @@ ip ssh version 2
 		switchport trunk allowed vlan 10,15,100,220,200,252
 	
 	! > HQ-OFFICE-S2
-	interface gig0/3
+	! interface gig0/3
+	interface fa0/4
 		no shutdown
 		switchport trunk encapsulation dot1q  
 		switchport mode trunk
@@ -352,7 +358,8 @@ ip ssh version 2
 		switchport trunk allowed vlan 20,25,100,160,200,252
 
 	! > HQ-WS-S1
-	interface gig1/0
+	! interface gig1/0
+	interface fa0/5
 		no shutdown
 		switchport trunk encapsulation dot1q  
 		switchport mode trunk
@@ -363,7 +370,8 @@ ip ssh version 2
 		switchport trunk allowed vlan 50,104,200,252
 
 	! > HQ-WS-S2
-	interface gig1/1
+	! interface gig1/1
+	interface fa0/6
 		no shutdown
 		switchport trunk encapsulation dot1q  
 		switchport mode trunk
@@ -374,19 +382,13 @@ ip ssh version 2
 		switchport trunk allowed vlan 51,104,200,252
 
 ! Links to servers
-
-	! > SD-HQ-LIN1
-	interface gig2/0
+	! > SD-HQ-PVE1
+	! interface gig2/0
+	interface fa0/13
 		no shutdown
 		switchport mode access
 		switchport access vlan 70
 
-
-	! > SD-HQ-WIN1
-	interface gig2/1
-		no shutdown
-		switchport mode access
-		switchport access vlan 70
 
 ! IPv4 EIGRP Configuration
 	router eigrp 100
@@ -397,16 +399,16 @@ ip ssh version 2
 		no auto-summary
 		router-id 1.1.1.1
 	    passive-interface default
-	    no passive-interface gig0/0
-	    no passive-interface gig0/1
+	    no passive-interface fa0/1
+	    no passive-interface fa0/2
 	    no passive-interface Port-channel 1
 
 ! IPv6 EIGRP Configuration
 	ipv6 router eigrp 100
 		router-id 1.1.1.1
 	    passive-interface default
-	    no passive-interface gig0/0
-	    no passive-interface gig0/1
+	    no passive-interface fa0/1
+	    no passive-interface fa0/2
 	    no passive-interface Port-channel 1
     
 
