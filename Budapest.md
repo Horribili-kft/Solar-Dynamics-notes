@@ -49,6 +49,26 @@ interface gig0/1
     ! EIGRP
     no shu
 
+! EtherChannel
+interface Port-channel1
+ no switchport
+ ! ip
+
+interface Xx/x
+ no switchport
+ channel-group 1 mode active
+
+interface Xx/x
+ no switchport
+ channel-group 1 mode active
+
+
+! STP
+
+spanning-tree vlan 10-70 root primary
+spanning-tree vlan 100-199 root secondary
+
+
 ! VLANs
 	vlan 10
 	    name "Technikai ugyfelsz"
@@ -133,11 +153,72 @@ interface gig0/1
 
 ! EIGRP
 
+router eigrp 100
+ network 172.16.2.0 0.0.0.1  # MLS 1 <-> Router 1
+ network 172.16.2.4 0.0.0.1  # MLS 1 <-> Router 2
+ network 10.2.0.0 0.0.255.255  # Összegzett címek
+ ! passive-interface default
+ no passive-interface GigabitEthernet0/0 # R1
+ no passive-interface GigabitEthernet0/1  # R2
+ no passive-interface Port-channel1  # EtherChannel
+
 
 
 
 
 BP-MLS-2
+
+! Banner
+banner login # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+banner incoming # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+banner exec # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+
+! Hostname
+hostname BP-MLS1
+
+
+
+! Convenience
+no ip domain lookup
+
+! Routing
+ip routing
+ipv6 unicast-routing
+
+! VTP
+vtp domain BUDAP
+vtp mode client
+vtp password Solar-Dynamics-2025
+
+! Remote access
+username solaire secret Solar-Dynamics-2025
+crypto key generate rsa general-keys modulus 2048
+line vty 0 15
+login local
+transport input ssh
+ip ssh version 2
+
+! EtherChannel
+interface Port-channel1
+ no switchport
+ ! ip
+
+interface Xx/x
+ no switchport
+ channel-group 1 mode active
+
+interface Xx/x
+ no switchport
+ channel-group 1 mode active
+
+
+! STP
+spanning-tree vlan 10-70 root secondary
+spanning-tree vlan 100-199 root primary
+
+
+! SVI
+
 
 interface Vlan10
  ip address 10.2.10.3 255.255.255.0
@@ -192,3 +273,45 @@ interface Vlan70
  standby 70 ip 10.2.70.1
  standby 70 priority 100
  standby 70 preempt
+
+! EIGRP
+
+router eigrp 100
+ network 172.16.2.3 0.0.0.0  # MLS 2 <-> Router 1
+ network 172.16.2.7 0.0.0.0  # MLS 2 <-> Router 2
+ network 10.2.0.0 0.0.255.255  # Összegzett címek
+ ! passive-interface default
+ no passive-interface GigabitEthernet0/0  # R1
+ no passive-interface GigabitEthernet0/1  # R2
+ no passive-interface Port-channel1  # EtherChannel
+
+
+
+
+
+
+
+! R1
+
+! EIGRP
+
+router eigrp 100
+ network 172.16.2.0 0.0.0.3
+ network 172.16.2.2 0.0.0.3
+ ! passive-interface default
+ no passive-interface GigabitEthernet0/0  # > MLS 1
+ no passive-interface GigabitEthernet0/1  # > MLS 2
+
+
+
+
+! R2
+
+! EIGRP
+
+router eigrp 100
+ network 172.16.2.4 0.0.0.3
+ network 172.16.2.6 0.0.0.3
+ ! passive-interface default
+ no passive-interface GigabitEthernet0/0  # > MLS 1
+ no passive-interface GigabitEthernet0/1  # > MLS 2
