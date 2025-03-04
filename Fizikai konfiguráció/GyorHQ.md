@@ -52,7 +52,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 ! VTP
 vtp domain GyorHQ
 vtp mode server
-vtp version 3
+vtp version 2
 vtp password Solar-Dynamics-2025
 do vtp primary
 
@@ -452,7 +452,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 ! VTP
 vtp domain GyorHQ
 vtp mode client
-vtp version 3
+vtp version 2
 vtp password Solar-Dynamics-2025
 
 ! STP Configuration (Secondary for Server and Voice VLANs, primary for all else)
@@ -503,6 +503,7 @@ ip ssh version 2
 		ipv6 enable
 		ipv6 eigrp 100
 		no shutdown
+
 
 ! Layer 3 VLAN Interfaces
 	interface vlan 10
@@ -732,6 +733,14 @@ ip ssh version 2
 		! All VLANs, less secure
 		! switchport trunk allowed vlan 10,15,20,25,50,51,70,100,104,160,200,220,252
 		switchport trunk allowed vlan 51,104,200,252
+
+	! Links to servers
+		! > SD-HQ-PVE1
+		! interface gig2/0
+		interface fa0/13
+			no shutdown
+			switchport mode access
+			switchport access vlan 70
 
 ! IPv4 EIGRP Configuration
 router eigrp 100! Hostname
@@ -997,7 +1006,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 ! VTP
 vtp domain GyorHQ
 vtp mode client
-vtp version 3
+vtp version 2
 vtp password Solar-Dynamics-2025
 
 ! STP Configuration
@@ -1106,7 +1115,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 ! VTP
 vtp domain GyorHQ
 vtp mode client
-vtp version 3
+vtp version 2
 vtp password Solar-Dynamics-2025
 
 ! STP Configuration
@@ -1215,7 +1224,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 ! VTP
 vtp domain GyorHQ
 vtp mode client
-vtp version 3
+vtp version 2
 vtp password Solar-Dynamics-2025
 
 ! STP Configuration
@@ -1312,7 +1321,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 ! VTP
 vtp domain GyorHQ
 vtp mode client
-vtp version 3
+vtp version 2
 vtp password Solar-Dynamics-2025
 
 ! STP Configuration
