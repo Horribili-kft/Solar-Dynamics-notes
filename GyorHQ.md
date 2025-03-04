@@ -762,6 +762,9 @@ Router
 -  [x] Banner
 -  [x] IPv4 EIGRP
 -  [x] IPv6 EIGRP
+-  [x] Default routes + EIGRP advertisement
+	- [x] IPv4
+	- [x] IPv6
 -  [x] IP
 -  [x] Login, SSH and authentication
 -  [x] NAT
@@ -783,6 +786,9 @@ no ip domain lookup
 ! Routing
 ip routing
 ipv6 unicast-routing
+	! Default routes
+	ip route 0.0.0.0 0.0.0.0 gig2/0
+	ipv6 route ::/0 gig2/0
 
 ! Banner
 banner login # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
@@ -817,7 +823,7 @@ ip ssh version 2
 	    
 	! > ISP
 	interface gig2/0
-	    ip address 82.136.79.1 255.255.255.0
+	    ip address 82.136.79.1 255.255.255.224
 	    ip nat outside
 		ipv6 address 2a:1dc:7c0:FFFF:82:136:79:1/64
 	    ipv6 eigrp 100
@@ -825,7 +831,10 @@ ip ssh version 2
 
 ! IPv4 EIGRP Configuration
 	router eigrp 100! Hostname
-	    network 82.136.79.0 0.0.0.255
+		! Redistribute
+		redistribute static metric 100000 1000 255 1 1500
+		! Networks
+	    network 82.136.79.0 0.0.0.31
 	    network 172.16.0.0 0.0.0.1
 	    network 172.16.0.2 0.0.0.1
 		no auto-summary
@@ -836,6 +845,7 @@ ip ssh version 2
 
 ! IPv6 EIGRP Configuration
 	ipv6 router eigrp 100
+		redistribute static metric 100000 1000 255 1 1500
 		router-id 3.3.3.3
 	    passive-interface default
 	    no passive-interface gig0/0
@@ -885,6 +895,9 @@ As of 2025.02.23, only a backup router
 -  [x] Banner
 -  [x] IPv4 EIGRP
 -  [x] IPv6 EIGRP
+-  [ ] Default routes + EIGRP advertisement
+	- [ ] IPv4
+	- [ ] IPv6
 -  [x] IP
 -  [x] Login, SSH and authentication
 -  [ ] NAT
@@ -906,6 +919,9 @@ no ip domain lookup
 ! Routing
 ip routing
 ipv6 unicast-routing
+	! Default routes
+	ip route 0.0.0.0 0.0.0.0 gig2/0
+	ipv6 route ::/0 gig2/0
 
 ! Banner
 banner login # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
@@ -939,7 +955,7 @@ interface gig1/0
     no shutdown
 
 interface gig2/0
-    ip address 82.136.79.2 255.255.255.0
+    ip address 82.136.79.2 255.255.255.224
     ip nat outside
 	ipv6 address 2a:1dc:7c0:FFFF:82:136:79:2/64
     ipv6 eigrp 100
@@ -947,7 +963,9 @@ interface gig2/0
 
 ! IPv4 EIGRP Configuration
 router eigrp 100
-    network 82.136.79.0 0.0.0.255
+    network 82.136.79.0 0.0.0.31
+	! Redistribute (with lower value)
+    redistribute static metric 1000 1000 255 1 1500
     network 172.16.0.4 0.0.0.1
     network 172.16.0.6 0.0.0.1
 	no auto-summary
@@ -960,6 +978,8 @@ router eigrp 100
 ! IPv6 EIGRP Configuration
 ipv6 router eigrp 100
 	router-id 4.4.4.4
+	! Redistribute (with lower value)
+	redistribute static metric 1000 1000 255 1 1500
     passive-interface default
     no passive-interface gig0/0
     no passive-interface gig1/0
