@@ -374,16 +374,8 @@ ip ssh version 2
 		switchport trunk allowed vlan 51,104,200,252
 
 ! Links to servers
-
-	! > SD-HQ-LIN1
+	! > SD-HQ-PVE1
 	interface gig2/0
-		no shutdown
-		switchport mode access
-		switchport access vlan 70
-
-
-	! > SD-HQ-WIN1
-	interface gig2/1
 		no shutdown
 		switchport mode access
 		switchport access vlan 70
@@ -730,6 +722,13 @@ ip ssh version 2
 		! All VLANs, less secure
 		! switchport trunk allowed vlan 10,15,20,25,50,51,70,100,104,160,200,220,252
 		switchport trunk allowed vlan 51,104,200,252
+
+! Links to servers
+	! > SD-HQ-PVE1
+	interface gig2/0
+		no shutdown
+		switchport mode access
+		switchport access vlan 70
 
 ! IPv4 EIGRP Configuration
 router eigrp 100! Hostname
