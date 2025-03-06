@@ -3,9 +3,9 @@ BP-MLS1
 -  [x] Hostname
 -  [x] Banner
 -  [x] VTP
--  [ ] LACP
+-  [x] LACP
 -  [ ] STP, Portfast, BPDU guard.
--  [ ] IP
+-  [x] IP
 -  [x] IPv4 EIGRP
 -  [ ] IPv6 EIGRP
 -  [ ] Trunk encapsulation / trunk setting 
@@ -40,6 +40,11 @@ vtp version 3
 vtp password Solar-Dynamics-2025
 do vtp primary
 
+! STP
+
+spanning-tree vlan 10-70 root primary
+spanning-tree vlan 100-199 root secondary
+
 ! Remote access
 username solaire secret Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
@@ -54,7 +59,7 @@ interface gig0/0
     no sw
     ip address 172.16.2.1 255.255.255.254
     ipv6 enable
-    ! EIGRP
+    ipv6 eigrp 100
     no shu
 
 ! > R2
@@ -62,27 +67,26 @@ interface gig0/1
     no sw
     ip address 172.16.2.5 255.255.255.254
     ipv6 enable
-    ! EIGRP
+    ipv6 eigrp 100
     no shu
 
 ! EtherChannel
-interface Port-channel1
+interface Port-channel 1
  no switchport
+ ip address 172.16.2.8 255.255.255.254
+ ipv6 enable
+ ipv6 eigrp 100
  ! ip
 
 interface Xx/x
  no switchport
  channel-group 1 mode active
+ no sh
 
 interface Xx/x
  no switchport
  channel-group 1 mode active
-
-
-! STP
-
-spanning-tree vlan 10-70 root primary
-spanning-tree vlan 100-199 root secondary
+ no sh
 
 
 ! VLANs
@@ -113,71 +117,213 @@ spanning-tree vlan 100-199 root secondary
 
     interface Vlan10
     ip address 10.2.10.2 255.255.255.0
+    ipv6 address 2a:1dc:7c0:010A:10:2:10:2/64
+	ipv6 eigrp 100
+    ! DHCP relay
+	ip helper-address 10.0.70.20
+	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
+    !
+    standby 10 version 2
     standby 10 ip 10.2.10.1
-    standby 10 priority 110
+    standby 10 priority 90
     standby 10 preempt
+    !
+    standby 2010 version 2
+	standby 2010 preempt
+	standby 2010 priority 90
+	standby 2010 ipv6 2a:1dc:7c0:010A:10:2:10:1
 
     interface Vlan20
     ip address 10.2.20.2 255.255.255.0
+    ipv6 address 2a:1dc:7c0:0114:10:2:10:2/64
+	ipv6 eigrp 100
+    ! DHCP relay
+	ip helper-address 10.0.70.20
+	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
+    standby 20 version 2
     standby 20 ip 10.2.20.1
-    standby 20 priority 110
+    standby 20 priority 90
     standby 20 preempt
+    !
+    standby 2020 version 2
+	standby 2020 preempt
+	standby 2020 priority 90
+	standby 2020 ipv6 2a:1dc:7c0:0114:10:2:10:1
 
     interface Vlan30
     ip address 10.2.30.2 255.255.255.0
+    ipv6 address 2a:1dc:7c0:011E:10:2:10:2/64
+	ipv6 eigrp 100
+    ! DHCP relay
+	ip helper-address 10.0.70.20
+	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
+    standby 30 version 2
     standby 30 ip 10.2.30.1
-    standby 30 priority 110
+    standby 30 priority 90
     standby 30 preempt
+    !
+    standby 2030 version 2
+	standby 2030 preempt
+	standby 2030 priority 90
+	standby 2030 ipv6 2a:1dc:7c0:011E:10:2:10:1
 
     interface Vlan40
     ip address 10.2.40.2 255.255.255.0
+    ipv6 address 2a:1dc:7c0:0128:10:2:10:2/64
+	ipv6 eigrp 100
+    ! DHCP relay
+	ip helper-address 10.0.70.20
+	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
+    standby 40 version 2
     standby 40 ip 10.2.40.1
-    standby 40 priority 110
+    standby 40 priority 90
     standby 40 preempt
+    !
+    standby 2040 version 2
+	standby 2040 preempt
+	standby 2040 priority 90
+	standby 2040 ipv6 2a:1dc:7c0:0128:10:2:10:1
 
     interface Vlan45
     ip address 10.2.45.2 255.255.255.0
+    ipv6 address 2a:1dc:7c0:012D:10:2:10:2/64
+	ipv6 eigrp 100
+    ! DHCP relay
+	ip helper-address 10.0.70.20
+	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
+    standby 45 version 2
     standby 45 ip 10.2.45.1
-    standby 45 priority 110
+    standby 45 priority 90
     standby 45 preempt
+    !
+    standby 2045 version 2
+	standby 2045 preempt
+	standby 2045 priority 90
+	standby 2045 ipv6 2a:1dc:7c0:012D:10:2:10:1
 
     interface Vlan50
     ip address 10.2.50.2 255.255.255.0
+    ipv6 address 2a:1dc:7c0:0132:10:2:10:2/64
+	ipv6 eigrp 100
+    ! DHCP relay
+	ip helper-address 10.0.70.20
+	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
+    standby 50 version 2
     standby 50 ip 10.2.50.1
-    standby 50 priority 110
+    standby 50 priority 90
     standby 50 preempt
+    !
+    standby 2050 version 2
+	standby 2050 preempt
+	standby 2050 priority 90
+	standby 2050 ipv6 2a:1dc:7c0:0132:10:2:10:1
 
     interface Vlan55
     ip address 10.2.55.2 255.255.255.0
+    ipv6 address 2a:1dc:7c0:0137:10:2:10:2/64
+	ipv6 eigrp 100
+    ! DHCP relay
+	ip helper-address 10.0.70.20
+	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
+    standby 55 version 2
     standby 55 ip 10.2.55.1
-    standby 55 priority 110
+    standby 55 priority 90
     standby 55 preempt
+    !
+    standby 2055 version 2
+	standby 2055 preempt
+	standby 2055 priority 90
+	standby 2055 ipv6 2a:1dc:7c0:0137:10:2:10:1
 
     interface Vlan60
     ip address 10.2.60.2 255.255.255.0
+    ipv6 address 2a:1dc:7c0:013C:10:2:10:2/64
+	ipv6 eigrp 100
+    ! DHCP relay
+	ip helper-address 10.0.70.20
+	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
+    standby 60 version 2
     standby 60 ip 10.2.60.1
-    standby 60 priority 110
+    standby 60 priority 90
     standby 60 preempt
+    !
+    standby 2060 version 2
+	standby 2060 preempt
+	standby 2060 priority 90
+	standby 2060 ipv6 2a:1dc:7c0:013C:10:2:10:1
 
     interface Vlan70
     ip address 10.2.70.2 255.255.255.0
+    ipv6 address 2a:1dc:7c0:0146:10:2:10:2/64
+	ipv6 eigrp 100
+    ! DHCP relay
+	ip helper-address 10.0.70.20
+	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
+    standby 70 version 2
     standby 70 ip 10.2.70.1
-    standby 70 priority 110
+    standby 70 priority 90
     standby 70 preempt
+    !
+    standby 2070 version 2
+	standby 2070 preempt
+	standby 2070 priority 90
+	standby 2070 ipv6 2a:1dc:7c0:0146:10:2:10:1
 
 ! Link to switches
+
+! > BP-EM1-SW
+	interface X
+		no shutdown
+		switchport trunk encapsulation dot1q  
+		switchport mode trunk
+		switchport nonegotiate
+		switchport trunk native vlan 999
+		! switchport trunk allowed vlan 10,20,30,40,45,50,55,60,70
+        switchport trunk allowed vlan 10,20
+
+! > BP-EM2-SW
+	interface X
+		no shutdown
+		switchport trunk encapsulation dot1q  
+		switchport mode trunk
+		switchport nonegotiate
+		switchport trunk native vlan 999
+		! switchport trunk allowed vlan 10,20,30,40,45,50,55,60,70
+        switchport trunk allowed vlan 30,40,45
+
+! > BP-EM3-SW
+	interface X
+		no shutdown
+		switchport trunk encapsulation dot1q  
+		switchport mode trunk
+		switchport nonegotiate
+		switchport trunk native vlan 999
+		! switchport trunk allowed vlan 10,20,30,40,45,50,55,60,70
+        switchport trunk allowed vlan 50,55,60,70
+
+
 
 ! EIGRP
 
 router eigrp 100
+ router-id 1.1.1.1
  network 172.16.2.0 0.0.0.1  # MLS 1 <-> Router 1
  network 172.16.2.4 0.0.0.1  # MLS 1 <-> Router 2
+ network 172.16.2.8 0.0.0.1  # MLS 1 <-> MLS 2
  network 10.2.0.0 0.0.255.255  # Összegzett címek
- ! passive-interface default
+ no auto-summary
+ passive-interface default
  no passive-interface GigabitEthernet0/0 # R1
  no passive-interface GigabitEthernet0/1  # R2
  no passive-interface Port-channel1  # EtherChannel
 
+
+ipv6 router eigrp 100
+ router-id 1.1.1.1
+ passive-interface default
+ no passive-interface gig0/0
+ no passive-interface gig0/1
+ no passive-interface Port-channel 1
 
 
 
@@ -206,7 +352,7 @@ banner incoming # WARNING: Unauthorized access is strictly prohibited. This devi
 banner exec # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
 
 ! Hostname
-hostname BP-MLS1
+hostname BP-MLS2
 
 
 
