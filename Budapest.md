@@ -1,4 +1,5 @@
 BP-MLS1
+---
 
 -  [x] Hostname
 -  [x] Banner
@@ -16,6 +17,7 @@ BP-MLS1
 -  [x] Login, SSH and authentication
 -  [ ] Authentication with RADIUS (bonus)
 
+```
 ! Banner
 banner login # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
 banner incoming # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
@@ -23,7 +25,6 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 
 ! Hostname
 hostname BP-MLS1
-
 
 
 ! Convenience
@@ -329,6 +330,7 @@ ipv6 router eigrp 100
 
 
 BP-MLS-2
+---
 
 -  [x] Hostname
 -  [x] Banner
@@ -346,6 +348,7 @@ BP-MLS-2
 -  [x] Login, SSH and authentication
 -  [ ] Authentication with RADIUS (bonus)
 
+```
 ! Banner
 banner login # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
 banner incoming # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
@@ -462,14 +465,15 @@ router eigrp 100
  no passive-interface GigabitEthernet0/0  # R1
  no passive-interface GigabitEthernet0/1  # R2
  no passive-interface Port-channel1  # EtherChannel
+```
 
 
 
 
 
 
-
-! R1
+R1
+---
 
 -  [x] Hostname
 -  [x] Banner
@@ -485,7 +489,7 @@ router eigrp 100
 	- [ ] IPsec (Encryption)
 	- [ ] Routing protocol (probably EIGRP)
 
-
+```
 ! Banner
 banner login # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
 banner incoming # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
@@ -677,7 +681,7 @@ router eigrp 100
     no passive-interface GigabitEthernet0/0  # > MLS 1
     no passive-interface GigabitEthernet0/1  # > MLS 2
 
-
+```
 
 
 

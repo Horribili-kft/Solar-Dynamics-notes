@@ -3,12 +3,16 @@
 ## Eszközök konfigurációja
 
 Hibák:
-- VLANok nincsenek meg minden switchen (lehetőleg VTP-t kéne használni)
-- Switch management IP-k nem követik teljesen a szabványt
-- Management VLAN 255 252 helyett
-- Switch config hiányos
-- Switch trunk port allowed vlanok túl engedékenyek
-- Router config hiányos, nincs kiadva az ipv6 unicast-routing
+- [ ] VLANok nincsenek meg minden switchen (lehetőleg VTP-t kéne használni)
+- [ ] Switch management IP-k nem követik teljesen a szabványt
+- [ ] Management VLAN 255 252 helyett
+- [ ] Bannerek hináyoznak
+- [ ] SSH hiányzik
+- [ ] Hostname hiányzik
+- [ ] NAT hiányzik
+- [ ] Switch trunk port allowed vlanok túl engedékenyek
+- [ ]  Router config hiányos, nincs kiadva az ipv6 unicast-routing
+- [ ] IPv6 címek eszköz része rossz
 
 SzF-R:
 ---
