@@ -33,6 +33,7 @@ interface gig0/0
 ! SzF-R
 interface gig1/0
     ip address 82.136.79.142 255.255.255.240
+    ip address 2a:1dc:7c0:FFFF::
     ipv6 enable
     ip nat inside
     no shutdown
