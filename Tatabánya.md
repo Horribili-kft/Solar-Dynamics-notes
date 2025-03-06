@@ -22,6 +22,7 @@ Hibák:
 - [ ] IPv6 Címek rossz formátumban vannak (javítottam néhányat, pl router gig0/0.10)
 - [ ] VTP version hiányzik
 - [ ] DHCP snooping trust kliens felé néző interfaceken
+- [ ] Domain név hiányzik az eszközökről
 
 TB-R:
 ---
@@ -35,6 +36,7 @@ Ellenőrző checklist:
 
 ```
 hostname TB-RT
+ip domain name tb.solardynamics.eu
 
 ipv6 unicast-routing
 
@@ -81,6 +83,10 @@ ipv6 nat enable
 
 
 ! VLAN interfaces
+interface gig0/0
+	no shutdown
+
+
 interface GigabitEthernet0/0.10
  encapsulation dot1Q 10
  ip address 10.3.10.1 255.255.255.0
@@ -128,13 +134,67 @@ interface GigabitEthernet0/0.252
  ipv6 address 2a:1dc:7c0:03FC:10:3:252:1/64
 
 
-interface GigabitEthernet0/1
- ip address 82.1.79.145 255.255.255.240
+interface GigabitEthernet1/0
+ no shutdown
+ ip address 82.136.79.145 255.255.255.240
  ip nat outside
  ipv6 enable
- ipv6 address 2a:1dc:7c0:03FF:82:1:79:145
+ ipv6 address 2a:1dc:7c0:03FF:82:1:79:145/64
 
- 2a:1dc:7c0:0300:82.1.79.145/64												!!!!!!!!!
+
+! IP route
+ip route 0.0.0.0 0.0.0.0 82.136.79.158
+
+
+! IPv4 EIGRP Configuration
+	router eigrp 100
+	    network 10.3.10.0 0.0.0.255
+	    network 10.3.20.0 0.0.0.255
+	    network 10.3.30.0 0.0.0.255
+	    network 10.3.150.0 0.0.0.255
+	    network 10.3.252.0 0.0.3.255
+	    
+		no auto-summary
+	    passive-interface default
+	    ! EIGRP for tunnel configuration
+		    network 192.168.0.0 0.0.0.255
+		    no passive-interface tunnel0
+
+
+
+
+! Site to site VPN configuration
+	! GRE tunnel
+		interface tunnel0
+			no shutdown
+			
+			! Public IP
+			tunnel source 82.136.79.145
+			
+			! Multipoint GRE for multiple site connection
+			tunnel mode gre multipoint
+			
+			! IP for inter tunnel communication
+			ip address 192.168.0.3 255.255.255.0
+			
+			! NHRP configuration
+				! NHRP for dynamic inter-site communication (must match on all sites)
+				ip nhrp network-id 1
+				
+				! Tunnel key (must match on all sites, but different between routers using the same site)
+				tunnel key 123
+				
+				! Password authentication (8 char limit)
+				ip nhrp authentication Password
+
+				! Allow multicast traffic over the tunnel interfaces (this is the same for all sites)
+				ip nhrp map multicast 82.136.79.1
+				ip nhrp map 192.168.0.1 82.136.79.1
+				ip nhrp nhs 192.168.0.1
+
+			! ip mtu 1400
+			! ip tcp adjust-mss 1360
+
 
 
 ```
