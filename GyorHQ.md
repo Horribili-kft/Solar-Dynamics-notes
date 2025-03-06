@@ -949,7 +949,7 @@ no ip domain lookup
 ip routing
 ipv6 unicast-routing
 	! Default routes
-	ip route 0.0.0.0 0.0.0.0 gig2/0
+	ip route 0.0.0.0 0.0.0.0 82.136.79.30
 	ipv6 route ::/0 gig2/0
 
 ! Banner
