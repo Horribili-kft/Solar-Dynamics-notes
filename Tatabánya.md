@@ -1,5 +1,6 @@
 # A TATABÁNYAI KIRENDELTSÉG CONFIG-JA:
 
+
 ```
 prefix:telephely:vlan:ipv4
 2a:1dc:7c0:0310:3:10:1/64
@@ -17,6 +18,10 @@ Hibák:
 - [x] Switch config hiányos
 - [x] Switch trunk port allowed vlanok túl engedékenyek
 - [x] Router config hiányos, nincs kiadva az ipv6 unicast-routing
+- [ ] IPv6 NAT enable feleslegesen TB-R-en
+- [ ] IPv6 Címek rossz formátumban vannak (javítottam néhányat, pl router gig0/0.10)
+- [ ] VTP version hiányzik
+- [ ] DHCP snooping trust kliens felé néző interfaceken
 
 TB-R:
 ---
@@ -46,29 +51,31 @@ transport input ssh
 ip ssh version 2
 
 ! NAT
-ip access-list standard SD-ACL-internal-client
-permit 10.3.10.0 0.0.0.255
-permit 10.3.20.0 0.0.0.255
-permit 10.3.30.0 0.0.0.255
-permit 10.3.252.0 0.0.3.255
+	! NAT ACL configurations:
+		ip access-list standard SD-ACL-internal-client
+			permit 10.3.10.0 0.0.0.255
+			permit 10.3.20.0 0.0.0.255
+			permit 10.3.30.0 0.0.0.255
+			permit 10.3.252.0 0.0.3.255
 
 exit
-		
-ip access-list standard SD-ACL-external-client
-permit 10.3.150.0 0.0.0.255
-exit
+			
+	ip access-list standard SD-ACL-external-client
+	permit 10.3.150.0 0.0.0.255
+	exit
+	
+	! Overload pool for company clients
+	ip nat pool SD-internal-client-pool 82.1.79.150 82.1.79.155 netmask 255.255.255.240
+	
+	! Pool for publically connected devices
+	ip nat pool SD-external-client-pool 82.1.79.156 82.1.79.158 netmask 255.255.255.240
+	
+	! NAT for company devices
+	ip nat inside source list SD-ACL-internal-client pool SD-internal-client-pool overload
+	
+	! NAT for external devices
+	ip nat inside source list SD-ACL-external-client pool SD-external-client-pool overload
 
-! Overload pool for company clients
-ip nat pool SD-internal-client-pool 82.1.79.150 82.1.79.155 netmask 255.255.255.240
-
-! Pool for publically connected devices
-ip nat pool SD-external-client-pool 82.1.79.156 82.1.79.158 netmask 255.255.255.240
-
-! NAT for company devices
-ip nat inside source list SD-ACL-internal-client pool SD-internal-client-pool overload
-
-! NAT for external devices
-ip nat inside source list SD-ACL-external-client pool SD-external-client-pool overload
 
 ipv6 nat enable
 
@@ -79,7 +86,7 @@ interface GigabitEthernet0/0.10
  ip address 10.3.10.1 255.255.255.0
  ip nat inside
  ipv6 enable
- ipv6 address 2a:1dc:7c0:0310:3:10:1/64
+ ipv6 address 2a:1dc:7c0:030A:10:3:10:1/64
  ip helper-address 10.0.70.20
  ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 
@@ -88,7 +95,7 @@ interface GigabitEthernet0/0.20
  ip address 10.3.20.1 255.255.255.0
  ip nat inside
  ipv6 enable
- ipv6 address 2a:1dc:7c0:0314:3:20:1/64
+ ipv6 address 2a:1dc:7c0:0314:10:3:20:1/64
  ip helper-address 10.0.70.20
  ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 
@@ -98,7 +105,7 @@ interface GigabitEthernet0/0.30
  ip address 10.3.30.1 255.255.255.0
  ip nat inside
  ipv6 enable
- ipv6 address 2a:1dc:7c0:031E:3:30:1/64
+ ipv6 address 2a:1dc:7c0:031E:10:3:30:1/64
  ip helper-address 10.0.70.20
  ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 
@@ -108,7 +115,7 @@ interface GigabitEthernet0/0.150
  ip address 10.3.150.1 255.255.255.0
  ip nat inside
  ipv6 enable
- ipv6 address 2a:1dc:7c0:0396:3:150:1/64
+ ipv6 address 2a:1dc:7c0:0396:10:3:150:1/64
  ip helper-address 10.0.70.20
  ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 
@@ -118,13 +125,15 @@ interface GigabitEthernet0/0.252
  ip address 10.3.252.1 255.255.252.0
  ip nat inside
  ipv6 enable
- ipv6 address 2a:1dc:7c0:03FC:3:252:1/64
+ ipv6 address 2a:1dc:7c0:03FC:10:3:252:1/64
 
 
 interface GigabitEthernet0/1
  ip address 82.1.79.145 255.255.255.240
  ip nat outside
  ipv6 enable
+ ipv6 address 2a:1dc:7c0:03FF:82:1:79:145
+
  2a:1dc:7c0:0300:82.1.79.145/64												!!!!!!!!!
 
 

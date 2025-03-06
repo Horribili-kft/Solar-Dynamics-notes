@@ -853,6 +853,7 @@ ip ssh version 2
 	    no passive-interface gig1/0
 
 ! NAT configuration
+
 	! SD-HQ-LIN1
 	ip nat inside source static 10.0.70.10 82.136.79.3
 	! SD-HQ-WIN1
@@ -860,21 +861,21 @@ ip ssh version 2
 	
 	! NAT ACL configurations:
 		ip access-list standard SD-ACL-internal-client
-		permit 10.0.10.0 0.0.0.255
-		permit 10.0.15.0 0.0.0.255
-		permit 10.0.20.0 0.0.0.255
-		permit 10.0.25.0 0.0.0.255
-		permit 10.0.50.0 0.0.0.255
-		permit 10.0.51.0 0.0.0.255
-		permit 10.0.200.0 0.0.0.255
-		permit 10.0.220.0 0.0.0.255
-		exit
+			permit 10.0.10.0 0.0.0.255
+			permit 10.0.15.0 0.0.0.255
+			permit 10.0.20.0 0.0.0.255
+			permit 10.0.25.0 0.0.0.255
+			permit 10.0.50.0 0.0.0.255
+			permit 10.0.51.0 0.0.0.255
+			permit 10.0.200.0 0.0.0.255
+			permit 10.0.220.0 0.0.0.255
+			exit
 		
 		ip access-list standard SD-ACL-external-client
-		permit 10.0.100.0 0.0.3.255
-		permit 10.0.104.0 0.0.3.255
-		permit 10.0.160.0 0.0.3.255
-		exit
+			permit 10.0.100.0 0.0.3.255
+			permit 10.0.104.0 0.0.3.255
+			permit 10.0.160.0 0.0.3.255
+			exit
 
 	! Overload pool for company clients
 	ip nat pool SD-internal-client-pool 82.136.79.10 82.136.79.14 netmask 255.255.255.224
@@ -978,6 +979,7 @@ ipv6 router eigrp 100
 
 
 ```
+
 Switchek
 ---
 - [x] Trunk portok
