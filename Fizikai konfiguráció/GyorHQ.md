@@ -835,8 +835,8 @@ ip ssh version 2
 	    no shutdown
 
 ! IPv4 EIGRP Configuration
-	router eigrp 100! Hostname
-	    network 82.136.79.0 0.0.0.255
+	router eigrp 100
+	    ! network 82.136.79.0 0.0.0.255
 	    network 172.16.0.0 0.0.0.1
 	    network 172.16.0.2 0.0.0.1
 		no auto-summary
@@ -844,6 +844,10 @@ ip ssh version 2
 	    passive-interface default
 	    no passive-interface gig0/0
 	    no passive-interface gig1/0
+	    ! EIGRP for tunnel configuration
+		    network 192.168.0.0 0.0.0.255
+		    no passive-interface tunnel0
+
 
 ! IPv6 EIGRP Configuration
 	ipv6 router eigrp 100
@@ -888,6 +892,49 @@ ip ssh version 2
 
 	! NAT for external devices (Or Wifi devices)
 	ip nat inside source list SD-ACL-external-client pool SD-external-client-pool overload
+
+
+! Site to site VPN configuration
+	! GRE tunnel
+		interface tunnel0
+			no shutdown
+					
+			! Public IP
+			tunnel source 82.136.79.1
+			
+			! Multipoint GRE for multiple site connection
+			tunnel mode gre multipoint
+			
+			! IP for inter tunnel communication
+			ip address 192.168.0.1 255.255.255.0
+			
+			! NHRP configuration
+				
+				! NHRP for dynamic inter-site communication (must match on all sites)
+				ip nhrp network-id 1
+				
+				! Tunnel key (must match on all sites, but different between routers using the same site)
+				tunnel key 123
+				
+				! Password authentication (8 char limit)
+				ip nhrp authentication Password
+				
+				! Allow multicast traffic over the tunnel interfaces (only set this on the HQ routers)
+				ip nhrp map multicast dynamic
+			! EIGRP configuration to work correctly
+			
+			! These are required for EIGRP to work correctly over the tunnel
+			no ip next-hop-self eigrp 100
+		    no ip split-horizon eigrp 100
+			
+			! ip mtu 1400
+			! ip tcp adjust-mss 1360
+
+
+
+
+
+
 
 ```
 ### HQ-R2
