@@ -836,7 +836,6 @@ ip ssh version 2
 
 ! IPv4 EIGRP Configuration
 	router eigrp 100
-	    ! network 82.136.79.0 0.0.0.255
 	    network 172.16.0.0 0.0.0.1
 	    network 172.16.0.2 0.0.0.1
 		no auto-summary
@@ -844,10 +843,9 @@ ip ssh version 2
 	    passive-interface default
 	    no passive-interface gig0/0
 	    no passive-interface gig1/0
-	    ! EIGRP for tunnel configuration
-		    network 192.168.0.0 0.0.0.255
-		    no passive-interface tunnel0
-
+	    ! Tunnel config
+	    network 192.168.0.0 0.0.0.255
+	    no passive-interface tunnel0
 
 ! IPv6 EIGRP Configuration
 	ipv6 router eigrp 100
@@ -893,7 +891,7 @@ ip ssh version 2
 	! NAT for external devices (Or Wifi devices)
 	ip nat inside source list SD-ACL-external-client pool SD-external-client-pool overload
 
-
+! Hub
 ! Site to site VPN configuration
 	! GRE tunnel
 		interface tunnel0

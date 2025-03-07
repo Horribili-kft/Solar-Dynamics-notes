@@ -146,6 +146,7 @@ interface GigabitEthernet1/0
 ip route 0.0.0.0 0.0.0.0 82.136.79.158
 
 
+
 ! IPv4 EIGRP Configuration
 	router eigrp 100
 	    network 10.3.10.0 0.0.0.255
@@ -160,9 +161,7 @@ ip route 0.0.0.0 0.0.0.0 82.136.79.158
 		    network 192.168.0.0 0.0.0.255
 		    no passive-interface tunnel0
 
-
-
-
+! Spoke
 ! Site to site VPN configuration
 	! GRE tunnel
 		interface tunnel0
