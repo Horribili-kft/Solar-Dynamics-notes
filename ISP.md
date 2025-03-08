@@ -25,14 +25,14 @@ ipv6 route 2a:1dc:7c0:0300::/56 gig3/0
 
 ! > HQ-R1
 interface gig0/0 
-    ip address  82.136.79.30 255.255.255.224
+    ip address  82.1.79.30 255.255.255.224
     ipv6 enable
     ip nat inside
     no shutdown
 
 ! SzF-R
 interface gig1/0
-    ip address 82.136.79.142 255.255.255.240
+    ip address 82.1.79.142 255.255.255.240
     ip address 2a:1dc:7c0:FFFF::
     ipv6 enable
     ip nat inside
@@ -40,14 +40,14 @@ interface gig1/0
 
 ! > TB-R
 interface gig2/0
-    ip address 82.136.79.158 255.255.255.240
+    ip address 82.1.79.158 255.255.255.240
     ipv6 enable
     ip nat inside
     no shutdown
 
 ! > BP-R
 interface gig3/0
-    ip address  82.136.79.62 255.255.255.224
+    ip address  82.1.79.62 255.255.255.224
     ipv6 enable
     ip nat inside
     no shutdown
@@ -62,7 +62,7 @@ interface gig6/0
     
 ! NAT
 ip access-list standard INSIDE-NET
-	permit 82.136.79.0 0.0.0.255
+	permit 82.1.79.0 0.0.0.255
 
 ip nat inside source list INSIDE-NET interface gig6/0
     

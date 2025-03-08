@@ -136,14 +136,14 @@ interface GigabitEthernet0/0.252
 
 interface GigabitEthernet1/0
  no shutdown
- ip address 82.136.79.145 255.255.255.240
+ ip address 82.1.79.145 255.255.255.240
  ip nat outside
  ipv6 enable
  ipv6 address 2a:1dc:7c0:03FF:82:1:79:145/64
 
 
 ! IP route
-ip route 0.0.0.0 0.0.0.0 82.136.79.158
+ip route 0.0.0.0 0.0.0.0 82.1.79.158
 
 
 
@@ -168,7 +168,7 @@ ip route 0.0.0.0 0.0.0.0 82.136.79.158
 			no shutdown
 			
 			! Public IP
-			tunnel source 82.136.79.145
+			tunnel source 82.1.79.145
 			
 			! Multipoint GRE for multiple site connection
 			tunnel mode gre multipoint
@@ -187,8 +187,8 @@ ip route 0.0.0.0 0.0.0.0 82.136.79.158
 				ip nhrp authentication Password
 
 				! Allow multicast traffic over the tunnel interfaces (this is the same for all sites)
-				ip nhrp map multicast 82.136.79.1
-				ip nhrp map 192.168.0.1 82.136.79.1
+				ip nhrp map multicast 82.1.79.1
+				ip nhrp map 192.168.0.1 82.1.79.1
 				ip nhrp nhs 192.168.0.1
 
 			! ip mtu 1400
