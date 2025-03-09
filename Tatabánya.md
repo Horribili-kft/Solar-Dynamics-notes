@@ -163,6 +163,28 @@ ip route 0.0.0.0 0.0.0.0 82.1.79.158
 
 ! Spoke
 ! Site to site VPN configuration
+
+	! IPsec Configuration
+	crypto isakmp policy 10
+		encr aes 256
+		hash sha256
+		authentication pre-share
+		! 2048 bit Diffie-Hellman key exchange
+		group 14
+		lifetime 86400
+		
+	! Wildcard, because this hub will connect to multiple spokes
+	crypto isakmp key Solar-Dynamics-2025 address 82.1.79.1
+	
+	crypto ipsec transform-set DMVPN-TRANSFORM-SET esp-aes 256 esp-sha256-hmac
+		mode transport
+	
+	crypto ipsec profile DMVPN-PROFILE
+		set transform-set DMVPN-TRANSFORM-SET
+	
+	interface Tunnel0
+		tunnel protection ipsec profile DMVPN-PROFILE
+
 	! GRE tunnel
 		interface tunnel0
 			no shutdown
