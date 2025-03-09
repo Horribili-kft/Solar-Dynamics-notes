@@ -18,11 +18,11 @@ Hibák:
 - [x] Switch config hiányos
 - [x] Switch trunk port allowed vlanok túl engedékenyek
 - [x] Router config hiányos, nincs kiadva az ipv6 unicast-routing
-- [ ] IPv6 NAT enable feleslegesen TB-R-en
-- [ ] IPv6 Címek rossz formátumban vannak (javítottam néhányat, pl router gig0/0.10)
-- [ ] VTP version hiányzik
-- [ ] DHCP snooping trust kliens felé néző interfaceken
-- [ ] Domain név hiányzik az eszközökről
+- [x] IPv6 NAT enable feleslegesen TB-R-en
+- [x] IPv6 Címek rossz formátumban vannak (javítottam néhányat, pl router gig0/0.10)
+- [x] VTP version hiányzik
+- [?] DHCP snooping trust kliens felé néző interfaceken
+- [x] Domain név hiányzik az eszközökről
 
 TB-R:
 ---
@@ -82,9 +82,6 @@ exit
 	
 	! NAT for external devices
 	ip nat inside source list SD-ACL-external-client pool SD-external-client-pool overload
-
-
-ipv6 nat enable
 
 
 ! VLAN interfaces
@@ -248,6 +245,10 @@ TB-EM1-LOGI:
 - [x] Portfast
 - [x] BPDU guard
 ```
+
+hostname TB-EM1-LOGI
+ip domain name hq.solardynamics.eu
+
 username solaire secret Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
@@ -258,6 +259,7 @@ ip ssh version 2
 
 vtp domain TATAB
 vtp mode client
+vtp version 2
 vtp password Solar-Dynamics-2025
 
 ip dhcp snooping
@@ -305,6 +307,11 @@ TB-EM2-IRODA:
 - [x] Portfast
 - [x] BPDU guard
 ```
+
+hostname TB-EM2-LOGI
+ip domain name hq.solardynamics.eu
+
+
 username solaire secret Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
@@ -392,6 +399,11 @@ TB-EM3-PARTNER:
 - [x] Portfast
 - [x] BPDU guard
 ```
+
+hostname TB-EM3-LOGI
+ip domain name hq.solardynamics.eu
+
+
 username solaire secret Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
@@ -401,9 +413,9 @@ ip ssh version 2
 
 
 
-
 vtp domain TATAB
 vtp mode client
+vtp version 2
 vtp password Solar-Dynamics-2025
 
 ip dhcp snooping
@@ -428,15 +440,13 @@ interface range FastEthernet0/1-FastEthernet0/3
 interface FastEthernet0/24
  switchport mode access
  switchport access vlan 150
+ !
  spanning-tree portfast
  spanning-tree bpduguard enable
+ !
  storm-control broadcast level 5.00
  storm-control multicast level 5.00
  storm-control unicast level 5.00
- switchport port-security
- switchport port-security maximum 3
- switchport port-security violation restrict
- switchport port-security mac-address sticky
  no shutdown
 
 interface FastEthernet0/23
