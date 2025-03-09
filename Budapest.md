@@ -879,7 +879,7 @@ ipv6 router eigrp 100
 
  ! Switches:
 
- Switchek
+ BP-EM1-SW
 
 - [ ] Trunk portok
 - [ ] DHCP snooping limit
@@ -889,3 +889,324 @@ ipv6 router eigrp 100
 - [ ] Port security
 - [ ] Portfast
 - [ ] BPDU guard
+
+! Hostname
+hostname BP-EM1-SW
+ip domain name XX.solardynamics.eu
+
+! Convenience
+no ip domain lookup
+
+! Banner
+banner login # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+banner incoming # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+banner exec # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+
+! VTP
+vtp domain BUDAP
+vtp mode client
+vtp version 3
+vtp password Solar-Dynamics-2025
+
+! STP Configuration
+spanning-tree mode rapid-pvst
+
+! Remote access (SUBJECT TO CHANGE TO RADIUS)
+username solaire secret Solar-Dynamics-2025
+crypto key generate rsa general-keys modulus 2048
+line vty 0 15
+login local
+transport input ssh
+ip ssh version 2
+
+! Management IP
+interface vlan 252
+	ip address 10.2.254.1 255.255.252.0
+	ipv6 address 2a:1dc:7c0:0Xff:10:2:254:1/64
+	no shutdown
+
+! > BP-MLS1
+interface gigX/X
+	no shutdown
+	switchport trunk encapsulation dot1q  
+	switchport mode trunk
+	switchport nonegotiate
+	switchport trunk native vlan 999
+	! Allowed VLANs are configured on the MLSs for centralized control.
+
+! > BP-MLS2
+interface gigX/X
+	no shutdown
+	switchport trunk encapsulation dot1q  
+	switchport mode trunk
+	switchport nonegotiate
+	switchport trunk native vlan 999
+	! Allowed VLANs are configured on the MLSs for centralized control.
+
+interface faX/X
+	no shutdown
+    switchport mode access 10
+	switchport voice vlan 200
+	! Security
+	switchport port-security
+    switchport port-security mac-address sticky
+	switchport port-security maximum 1
+	switchport port-security violation restrict
+	! STP
+	spanning-tree portfast
+	spanning-tree bpduguard enable
+	! snooping
+	ip dhcp snooping limit rate 10
+
+interface faX/X
+	no shutdown
+    switchport mode access 20
+	switchport voice vlan 200
+	! Security
+	switchport port-security
+    switchport port-security mac-address sticky
+	switchport port-security maximum 1
+	switchport port-security violation restrict
+	! STP
+	spanning-tree portfast
+	spanning-tree bpduguard enable
+	! snooping
+	ip dhcp snooping limit rate 10
+
+
+
+
+ BP-EM2-SW
+
+- [ ] Trunk portok
+- [ ] DHCP snooping limit
+- [ ] DHCP snooping trust
+- [ ] Storm control
+- [ ] Nonegotiate
+- [ ] Port security
+- [ ] Portfast
+- [ ] BPDU guard
+
+! Hostname
+hostname BP-EM2-SW
+ip domain name XX.solardynamics.eu
+
+! Convenience
+no ip domain lookup
+
+! Banner
+banner login # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+banner incoming # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+banner exec # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+
+! VTP
+vtp domain BUDAP
+vtp mode client
+vtp version 3
+vtp password Solar-Dynamics-2025
+
+! STP Configuration
+spanning-tree mode rapid-pvst
+
+! Remote access (SUBJECT TO CHANGE TO RADIUS)
+username solaire secret Solar-Dynamics-2025
+crypto key generate rsa general-keys modulus 2048
+line vty 0 15
+login local
+transport input ssh
+ip ssh version 2
+
+! Management IP
+interface vlan 252
+	ip address 10.2.254.2 255.255.252.0
+	ipv6 address 2a:1dc:7c0:0Xff:10:2:254:2/64
+	no shutdown
+
+! > BP-MLS1
+interface gigX/X
+	no shutdown
+	switchport trunk encapsulation dot1q  
+	switchport mode trunk
+	switchport nonegotiate
+	switchport trunk native vlan 999
+	! Allowed VLANs are configured on the MLSs for centralized control.
+
+! > BP-MLS2
+interface gigX/X
+	no shutdown
+	switchport trunk encapsulation dot1q  
+	switchport mode trunk
+	switchport nonegotiate
+	switchport trunk native vlan 999
+	! Allowed VLANs are configured on the MLSs for centralized control.
+
+interface faX/X
+	no shutdown
+    switchport mode access 30
+	switchport voice vlan 200
+	! Security
+	switchport port-security
+    switchport port-security mac-address sticky
+	switchport port-security maximum 1
+	switchport port-security violation restrict
+	! STP
+	spanning-tree portfast
+	spanning-tree bpduguard enable
+	! snooping
+	ip dhcp snooping limit rate 10
+
+interface faX/X
+	no shutdown
+    switchport mode access 40
+	switchport voice vlan 200
+	! Security
+	switchport port-security
+    switchport port-security mac-address sticky
+	switchport port-security maximum 1
+	switchport port-security violation restrict
+	! STP
+	spanning-tree portfast
+	spanning-tree bpduguard enable
+	! snooping
+	ip dhcp snooping limit rate 10
+
+interface faX/X
+	no shutdown
+    switchport mode access 45
+	switchport voice vlan 200
+	! Security
+	switchport port-security
+    switchport port-security mac-address sticky
+	switchport port-security maximum 1
+	switchport port-security violation restrict
+	! STP
+	spanning-tree portfast
+	spanning-tree bpduguard enable
+	! snooping
+	ip dhcp snooping limit rate 10
+
+
+BP-EM3-SW
+
+- [ ] Trunk portok
+- [ ] DHCP snooping limit
+- [ ] DHCP snooping trust
+- [ ] Storm control
+- [ ] Nonegotiate
+- [ ] Port security
+- [ ] Portfast
+- [ ] BPDU guard
+
+! Hostname
+hostname BP-EM3-SW
+ip domain name XX.solardynamics.eu
+
+! Convenience
+no ip domain lookup
+
+! Banner
+banner login # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+banner incoming # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+banner exec # WARNING: Unauthorized access is strictly prohibited. This device is the property of the Solar Dynamics corporation and is only for authorized use. Any unauthorized access or attempt to gain access to this device will reported#
+
+! VTP
+vtp domain BUDAP
+vtp mode client
+vtp version 3
+vtp password Solar-Dynamics-2025
+
+! STP Configuration
+spanning-tree mode rapid-pvst
+
+! Remote access (SUBJECT TO CHANGE TO RADIUS)
+username solaire secret Solar-Dynamics-2025
+crypto key generate rsa general-keys modulus 2048
+line vty 0 15
+login local
+transport input ssh
+ip ssh version 2
+
+! Management IP
+interface vlan 252
+	ip address 10.2.254.3 255.255.252.0
+	ipv6 address 2a:1dc:7c0:0Xff:10:2:254:3/64
+	no shutdown
+
+! > BP-MLS1
+interface gigX/X
+	no shutdown
+	switchport trunk encapsulation dot1q  
+	switchport mode trunk
+	switchport nonegotiate
+	switchport trunk native vlan 999
+	! Allowed VLANs are configured on the MLSs for centralized control.
+
+! > BP-MLS2
+interface gigX/X
+	no shutdown
+	switchport trunk encapsulation dot1q  
+	switchport mode trunk
+	switchport nonegotiate
+	switchport trunk native vlan 999
+	! Allowed VLANs are configured on the MLSs for centralized control.
+
+interface faX/X
+	no shutdown
+    switchport mode access 50
+	switchport voice vlan 200
+	! Security
+	switchport port-security
+    switchport port-security mac-address sticky
+	switchport port-security maximum 1
+	switchport port-security violation restrict
+	! STP
+	spanning-tree portfast
+	spanning-tree bpduguard enable
+	! snooping
+	ip dhcp snooping limit rate 10
+
+interface faX/X
+	no shutdown
+    switchport mode access 55
+	switchport voice vlan 200
+	! Security
+	switchport port-security
+    switchport port-security mac-address sticky
+	switchport port-security maximum 1
+	switchport port-security violation restrict
+	! STP
+	spanning-tree portfast
+	spanning-tree bpduguard enable
+	! snooping
+	ip dhcp snooping limit rate 10
+
+interface faX/X
+	no shutdown
+    switchport mode access 60
+	switchport voice vlan 200
+	! Security
+	switchport port-security
+    switchport port-security mac-address sticky
+	switchport port-security maximum 1
+	switchport port-security violation restrict
+	! STP
+	spanning-tree portfast
+	spanning-tree bpduguard enable
+	! snooping
+	ip dhcp snooping limit rate 10
+
+
+interface faX/X
+	no shutdown
+    switchport mode access 70
+	switchport voice vlan 200
+	! Security
+	switchport port-security
+    switchport port-security mac-address sticky
+	switchport port-security maximum 1
+	switchport port-security violation restrict
+	! STP
+	spanning-tree portfast
+	spanning-tree bpduguard enable
+	! snooping
+	ip dhcp snooping limit rate 10
