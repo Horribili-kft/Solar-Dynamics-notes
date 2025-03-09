@@ -33,6 +33,11 @@ Ellenőrző checklist:
 -  [x] IPv6
 -  [x] Login, SSH and authentication
 -  [x] NAT
+-  [x] DMVPN:
+	- [x] GRE (Packet encapsulation into another packet)
+	- [x] NHRP (Next Hop Resolution Protocol, don't know what this is)
+	- [x] IPsec (Encryption)
+	- [x] Routing protocol (probably EIGRP)
 
 ```
 hostname TB-RT
@@ -146,21 +151,6 @@ interface GigabitEthernet1/0
 ip route 0.0.0.0 0.0.0.0 82.1.79.158
 
 
-
-! IPv4 EIGRP Configuration
-	router eigrp 100
-	    network 10.3.10.0 0.0.0.255
-	    network 10.3.20.0 0.0.0.255
-	    network 10.3.30.0 0.0.0.255
-	    network 10.3.150.0 0.0.0.255
-	    network 10.3.252.0 0.0.3.255
-	    
-		no auto-summary
-	    passive-interface default
-	    ! EIGRP for tunnel configuration
-		    network 192.168.0.0 0.0.0.255
-		    no passive-interface tunnel0
-
 ! Spoke
 ! Site to site VPN configuration
 
@@ -175,6 +165,7 @@ ip route 0.0.0.0 0.0.0.0 82.1.79.158
 		
 	! Wildcard, because this hub will connect to multiple spokes
 	crypto isakmp key Solar-Dynamics-2025 address 82.1.79.1
+	crypto isakmp key Solar-Dynamics-2025-2 address 85.16.100.3
 	
 	crypto ipsec transform-set DMVPN-TRANSFORM-SET esp-aes 256 esp-sha256-hmac
 		mode transport
@@ -196,25 +187,49 @@ ip route 0.0.0.0 0.0.0.0 82.1.79.158
 			tunnel mode gre multipoint
 			
 			! IP for inter tunnel communication
-			ip address 192.168.0.3 255.255.255.0
+			! Site number + 2
+			ip address 192.168.0.5 255.255.255.0
 			
 			! NHRP configuration
 				! NHRP for dynamic inter-site communication (must match on all sites)
 				ip nhrp network-id 1
 				
-				! Tunnel key (must match on all sites, but different between routers using the same site)
+				! Tunnel key
 				tunnel key 123
 				
 				! Password authentication (8 char limit)
 				ip nhrp authentication Password
 
 				! Allow multicast traffic over the tunnel interfaces (this is the same for all sites)
+				
+				! HQ-R1 (Hub 1)
 				ip nhrp map multicast 82.1.79.1
 				ip nhrp map 192.168.0.1 82.1.79.1
 				ip nhrp nhs 192.168.0.1
+				
+				! HQ-R2 (Hub 2)
+				ip nhrp map multicast 85.16.100.3
+				ip nhrp map 192.168.0.2 85.16.100.3
+				ip nhrp nhs 192.168.0.2
+				
 
 			! ip mtu 1400
 			! ip tcp adjust-mss 1360
+
+
+! IPv4 EIGRP Configuration
+	router eigrp 100
+	    network 10.3.10.0 0.0.0.255
+	    network 10.3.20.0 0.0.0.255
+	    network 10.3.30.0 0.0.0.255
+	    network 10.3.150.0 0.0.0.255
+	    network 10.3.252.0 0.0.3.255
+	    
+		no auto-summary
+	    passive-interface default
+	    ! EIGRP for tunnel configuration
+		    network 192.168.0.0 0.0.0.255
+		    no passive-interface tunnel0
 
 
 

@@ -71,24 +71,36 @@ ip ssh version 2
 
 ! Layer 3 routing links
 
-	! LACP Etherchannel > MLS2
-	! interface range gig3/0 - 3
-	interface range fa0/21-24 
-	    no switchport
-		channel-group 1 mode active
-		no shutdown
+	! LACP Etherchannel on *Layer 3* > MLS2 
+	
+		! interface range gig3/2-3
+		interface range fa0/22-24 
+		    no switchport
+			channel-group 1 mode active
+			no shutdown
+			
+		interface Port-channel 1
+			description link to MLS2
+			no switchport
+			ip address 172.16.0.8 255.255.255.254
+			ipv6 enable
+			ipv6 eigrp 100
+			no shutdown
+
+
+	! LACP Etherchannel on *Layer 2* > MLS2 
+		! This is needed in case someone tries to ping one switch while connected to the other.
 		
-	interface Port-channel 1
-		description link to MLS2
-		no switchport
-		ip address 172.16.0.8 255.255.255.254
-		ipv6 enable
-		ipv6 eigrp 100
-		no shutdown
-		! Configs for layer 2 mode, which we don't use anymore
-		! switchport trunk encapsulation dot1q
-		! switchport mode trunk
-		! switchport trunk native vlan 999
+		! interface range gig3/0-1
+		interface range fa0/21-22
+			switchport
+			no shutdown
+			channel-group 2 mode active
+	
+		interface Port-channel 2
+			switchport trunk encapsulation dot1q
+			switchport mode trunk
+			switchport trunk native vlan 999
 
 	! > R1
 	! interface gig0/0
@@ -470,23 +482,37 @@ ip ssh version 2
 
 ! Layer 3 routing links
 
-	! LACP Etherchannel > MLS1
-	interface range gig3/0 - 3
-		no switchport
-		channel-group 1 mode active
-		no shutdown
+	! LACP Etherchannel on *Layer 3* > MLS2 
+	
+		! interface range gig3/2-3
+		interface range fa0/22-24 
+		    no switchport
+			channel-group 1 mode active
+			no shutdown
+			
+		interface Port-channel 1
+			description link to MLS2
+			no switchport
+			ip address 172.16.0.9 255.255.255.254
+			ipv6 enable
+			ipv6 eigrp 100
+			no shutdown
+
+
+	! LACP Etherchannel on *Layer 2* > MLS2 
+		! This is needed in case someone tries to ping one switch while connected to the other.
 		
-	interface Port-channel 1
-		description link to MLS1
-		no switchport
-		ip address 172.16.0.9 255.255.255.254
-		ipv6 enable
-		ipv6 eigrp 100
-		no shutdown
-		! Configs for layer 2 mode, which we don't use anymore
-		! switchport trunk encapsulation dot1q
-		! switchport mode trunk
-		! switchport trunk native vlan 999
+		! interface range gig3/0-1
+		interface range fa0/21-22
+			switchport
+			no shutdown
+			channel-group 2 mode active
+	
+		interface Port-channel 2
+			switchport trunk encapsulation dot1q
+			switchport mode trunk
+			switchport trunk native vlan 999
+
 	
 	! > R1
 	interface gig0/0
@@ -777,11 +803,12 @@ Router
 -  [x] Login, SSH and authentication
 -  [x] NAT
 -  [ ] Authentication with RADIUS
--  [ ] DMVPN:
+-  [x] DMVPN:
 	- [x] GRE (Packet encapsulation into another packet)
 	- [x] NHRP (Next Hop Resolution Protocol, don't know what this is)
-	- [ ] IPsec (Encryption)
+	- [x] IPsec (Encryption)
 	- [x] Routing protocol (probably EIGRP)
+- [ ] BGP / WAN routing
 
 ```
 ! Hostname
@@ -963,13 +990,14 @@ As of 2025.02.23, only a backup router
 -  [x] IPv6 EIGRP
 -  [x] IP
 -  [x] Login, SSH and authentication
--  [ ] NAT
+-  [x] NAT
 -  [ ] Authentication with RADIUS
--  [ ] DMVPN:
-	- [ ] GRE (Packet encapsulation into another packet)
-	- [ ] NHRP (Next Hop Resolution Protocol, don't know what this is)
-	- [ ] IPsec (Encryption)
-	- [ ] Routing protocol (probably EIGRP)
+-  [x] DMVPN:
+	- [x] GRE (Packet encapsulation into another packet)
+	- [x] NHRP (Next Hop Resolution Protocol, don't know what this is)
+	- [x] IPsec (Encryption)
+	- [x] Routing protocol (probably EIGRP)
+- [ ] BGP/routing
 
 ```
 ! Hostname
@@ -1014,31 +1042,122 @@ interface gig1/0
     ipv6 eigrp 100
     no shutdown
 
+! > ISP
 interface gig2/0
-    ip address 82.1.79.2 255.255.255.0
+    ip address 85.16.100.3 255.255.255.254
     ip nat outside
-	ipv6 address 2a:1dc:7c0:00FF:82:1:79:2/64
-    ipv6 eigrp 100
     no shutdown
-
-! IPv4 EIGRP Configuration
-router eigrp 100
-    network 82.1.79.0 0.0.0.255
-    network 172.16.0.4 0.0.0.1
-    network 172.16.0.6 0.0.0.1
-	no auto-summary
-	router-id 4.4.4.4
-    passive-interface default
-    no passive-interface gig0/0
-    no passive-interface gig1/0
 
 
 ! IPv6 EIGRP Configuration
-ipv6 router eigrp 100
-	router-id 4.4.4.4
-    passive-interface default
-    no passive-interface gig0/0
-    no passive-interface gig1/0
+	ipv6 router eigrp 100
+		router-id 4.4.4.4
+	    passive-interface default
+	    no passive-interface gig0/0
+	    no passive-interface gig1/0
+
+
+! NAT configuration
+	! Servers won't be reachable through this ISP.
+
+	! NAT ACL configurations:
+		ip access-list standard SD-ACL-internal-client
+			permit 10.0.10.0 0.0.0.255
+			permit 10.0.15.0 0.0.0.255
+			permit 10.0.20.0 0.0.0.255
+			permit 10.0.25.0 0.0.0.255
+			permit 10.0.50.0 0.0.0.255
+			permit 10.0.51.0 0.0.0.255
+			permit 10.0.200.0 0.0.0.255
+			permit 10.0.220.0 0.0.0.255
+			exit
+		
+		ip access-list standard SD-ACL-external-client
+			permit 10.0.100.0 0.0.3.255
+			permit 10.0.104.0 0.0.3.255
+			permit 10.0.160.0 0.0.3.255
+			exit
+
+	! NAT for company devices
+	ip nat inside source list SD-ACL-internal-client interface gig2/0
+
+	! NAT for external devices (Or Wifi devices)
+	ip nat inside source list SD-ACL-external-client interface gig2/0
+
+
+! Hub
+! Site to site VPN configuration
+	
+	! IPsec Configuration
+	crypto isakmp policy 10
+		encr aes 256
+		hash sha256
+		authentication pre-share
+		! 2048 bit Diffie-Hellman key exchange
+		group 14
+		lifetime 86400
+		
+	! Wildcard, because this hub will connect to multiple spokes
+	crypto isakmp key Solar-Dynamics-2025-2 address 0.0.0.0 0.0.0.0
+	
+	crypto ipsec transform-set DMVPN-TRANSFORM-SET esp-aes 256 esp-sha256-hmac
+		mode transport
+	
+	crypto ipsec profile DMVPN-PROFILE
+		set transform-set DMVPN-TRANSFORM-SET
+	
+	interface Tunnel0
+		tunnel protection ipsec profile DMVPN-PROFILE
+
+	! GRE tunnel
+		interface tunnel0
+			no shutdown
+					
+			! Public IP
+			tunnel source 85.16.100.3
+			
+			! Multipoint GRE for multiple site connection
+			tunnel mode gre multipoint
+			
+			! IP for inter tunnel communication
+			ip address 192.168.0.2 255.255.255.0
+			
+			! NHRP configuration
+				
+				! NHRP for dynamic inter-site communication (must match on all sites)
+				ip nhrp network-id 1
+				
+				! Tunnel key
+				tunnel key 123
+				
+				! Password authentication (8 char limit)
+				ip nhrp authentication Password
+				
+				! Allow multicast traffic over the tunnel interfaces (only set this on the HQ routers)
+				ip nhrp map multicast dynamic
+			! EIGRP configuration to work correctly
+			
+			! These are required for EIGRP to work correctly over the tunnel
+			no ip next-hop-self eigrp 100
+		    no ip split-horizon eigrp 100
+			
+			! ip mtu 1400
+			! ip tcp adjust-mss 1360
+	
+
+! IPv4 EIGRP Configuration
+	router eigrp 100
+	    network 172.16.0.4 0.0.0.1
+	    network 172.16.0.6 0.0.0.1
+		no auto-summary
+		router-id 4.4.4.4
+	    passive-interface default
+	    no passive-interface gig0/0
+	    no passive-interface gig1/0
+	    ! Tunnel configuration
+	    network 192.168.0.0 0.0.0.255
+	    no passive-interface tunnel0
+
 
 
 
