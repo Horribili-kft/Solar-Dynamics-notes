@@ -176,10 +176,17 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 10 ip 10.0.10.254
-	    standby 10 priority 90
-	    standby 10 preempt
-	    standby 10 ipv6 2a:1dc:7c0:000A:10:0:10:254
+			! IPv4:
+				standby 10 version 2
+				standby 10 ip 10.0.10.254
+				standby 10 priority 90
+				standby 2010 preempt
+			! IPv6:
+				standby 2010 version 2
+				standby 2010 preempt
+				standby 2010 priority 90
+				standby 2010 ipv6 2a:1dc:7c0:000A:10:0:10:254
+	    
 	    no shutdown
 	
 	interface vlan 15
@@ -190,10 +197,17 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 15 ip 10.0.15.254
-	    standby 15 priority 90
-	    standby 15 preempt
-	    standby 15 ipv6 2a:1dc:7c0:000F:10:0:15:254
+			! IPv4
+				standby 15 version 2
+				standby 15 ip 10.0.15.254
+				standby 15 priority 90
+				standby 15 preempt
+			! IPv6	
+				standby 2015 version 2
+				standby 2015 preempt
+				standby 2015 priority 90
+				standby 2015 ipv6 2a:1dc:7c0:000F:10:0:15:254
+				
 	    no shutdown
 	
 	interface vlan 20
@@ -204,11 +218,17 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 20 ip 10.0.20.254
-	    standby 20 priority 90
-	    standby 20 preempt
-	    standby 20 ipv6 2a:1dc:7c0:0014:10:0:20:254
-	    no shutdown
+			! IPv4:
+				standby 20 version 2
+				standby 20 ip 10.0.20.254
+				standby 20 priority 90
+				standby 20 preempt
+			! IPv6:
+				standby 2020 version 2
+				standby 2020 preempt
+				standby 2020 priority 90
+				standby 2020 ipv6 2a:1dc:7c0:0014:10:0:20:254
+		no shutdown
 	
 	interface vlan 25
 	    ip address 10.0.25.1 255.255.255.0
@@ -218,10 +238,16 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 25 ip 10.0.25.254
-	    standby 25 priority 90
-	    standby 25 preempt
-	    standby 25 ipv6 2a:1dc:7c0:0019:10:0:25:254
+			! IPv4:
+				standby 25 version 2
+				standby 25 ip 10.0.25.254
+				standby 25 priority 90
+				standby 25 preempt
+			! IPv6:
+				standby 2025 version 2
+				standby 2025 preempt
+				standby 2025 priority 90
+				standby 2025 ipv6 2a:1dc:7c0:0019:10:0:25:254
 	    no shutdown
 	
 	interface vlan 50
@@ -232,10 +258,16 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 50 ip 10.0.50.254
-	    standby 50 priority 90
-	    standby 50 preempt
-	    standby 50 ipv6 2a:1dc:7c0:0032:10:0:50:254
+			! IPv4:
+				standby 50 version 2
+				standby 50 ip 10.0.50.254
+				standby 50 priority 90
+				standby 50 preempt
+			! IPv6:
+				standby 2050 version 2
+				standby 2050 preempt
+				standby 2050 priority 90
+				standby 2050 ipv6 2a:1dc:7c0:0032:10:0:50:254
 	    no shutdown
 	
 	interface vlan 51
@@ -246,10 +278,16 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 51 ip 10.0.51.254
-	    standby 51 priority 90
-	    standby 51 preempt
-	    standby 51 ipv6 2a:1dc:7c0:0033:10:0:51:254
+			! IPv4:
+				standby 51 version 2
+				standby 51 ip 10.0.51.254
+				standby 51 priority 90
+				standby 51 preempt
+			! IPv6:
+				standby 2051 version 2
+				standby 2051 preempt
+				standby 2051 priority 90
+				standby 2051 ipv6 2a:1dc:7c0:0033:10:0:51:254
 	    no shutdown
 	
 	interface vlan 70
@@ -260,10 +298,16 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 70 ip 10.0.70.254
-	    standby 70 priority 110
-	    standby 70 preempt
-	    standby 70 ipv6 2a:1dc:7c0:0046:10:0:70:254
+			! IPv4:
+				standby 70 version 2
+				standby 70 ip 10.0.70.254
+				standby 70 priority 110
+				standby 70 preempt
+			! IPv6:
+				standby 2070 version 2
+				standby 2070 preempt
+				standby 2070 priority 110
+				standby 2070 ipv6 2a:1dc:7c0:0046:10:0:70:254
 	    no shutdown
 	
 	interface vlan 100
@@ -274,10 +318,16 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 100 ip 10.0.103.254
-	    standby 100 priority 90
-	    standby 100 preempt
-	    standby 100 ipv6 2a:1dc:7c0:0064:10:0:103:254
+			! IPv4:
+				standby 100 version 2
+				standby 100 ip 10.0.103.254
+				standby 100 priority 90
+				standby 100 preempt
+			! IPv6:
+				standby 2100 version 2
+				standby 2100 preempt
+				standby 2100 priority 90
+				standby 2100 ipv6 2a:1dc:7c0:0064:10:0:103:254
 		no shutdown
 	
 	interface vlan 104
@@ -288,10 +338,16 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 104 ip 10.0.104.254
-	    standby 104 priority 90
-	    standby 104 preempt
-	    standby 104 ipv6 2a:1dc:7c0:0068:10:0:104:254
+			! IPv4:
+				standby 104 version 2
+				standby 104 ip 10.0.104.254
+				standby 104 priority 90
+				standby 104 preempt
+			! IPv6:
+				standby 2104 version 2
+				standby 2104 preempt
+				standby 2104 priority 90
+				standby 2104 ipv6 2a:1dc:7c0:0068:10:0:104:254
 	    no shutdown
 	
 	interface vlan 160
@@ -302,10 +358,16 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 	    ! HSRP
-	    standby 160 ip 10.0.163.254
-	    standby 160 priority 90
-	    standby 160 preempt
-	    standby 160 ipv6 2a:1dc:7c0:00A0:10:0:163:254
+			! IPv4:
+				standby 160 version 2
+				standby 160 ip 10.0.163.254
+				standby 160 priority 90
+				standby 160 preempt
+			! IPv6:
+				standby 2160 version 2
+				standby 2160 preempt
+				standby 2160 priority 90
+				standby 2160 ipv6 2a:1dc:7c0:00A0:10:0:163:254
 	    no shutdown
 	
 	interface vlan 200
@@ -316,10 +378,16 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 200 ip 10.0.200.254
-	    standby 200 priority 110
-	    standby 200 preempt
-	    standby 200 ipv6 2a:1dc:7c0:00C8:10:0:200:254
+			! IPv4:
+				standby 200 version 2
+				standby 200 ip 10.0.200.254
+				standby 200 priority 110
+				standby 200 preempt
+			! IPv6:
+				standby 2200 version 2
+				standby 2200 preempt
+				standby 2200 priority 110
+				standby 2200 ipv6 2a:1dc:7c0:00C8:10:0:200:254
 		no shutdown
 	
 	interface vlan 220
@@ -330,10 +398,16 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 220 ip 10.0.220.254
-	    standby 220 priority 90
-	    standby 220 preempt
-	    standby 220 ipv6 2a:1dc:7c0:00DC:10:0:220:254
+			! IPv4:
+				standby 220 version 2
+				standby 220 ip 10.0.220.254
+				standby 220 priority 90
+				standby 220 preempt
+			! IPv6:
+				standby 2220 version 2
+				standby 2220 preempt
+				standby 2220 priority 90
+				standby 2220 ipv6 2a:1dc:7c0:00DC:10:0:220:254
 		no shutdown
 	
 	interface vlan 252
@@ -344,12 +418,17 @@ ip ssh version 2
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 		! HSRP
-		standby 252 ip 10.0.255.254
-	    standby 252 priority 90
-	    standby 252 preempt
-	    standby 252 ipv6 2a:1dc:7c0:00FE:10:0:255:254
+			! IPv4:
+				standby 252 version 2
+				standby 252 ip 10.0.255.254
+				standby 252 priority 90
+				standby 252 preempt
+			! IPv6:
+				standby 2252 version 2
+				standby 2252 preempt
+				standby 2252 priority 90
+				standby 2252 ipv6 2a:1dc:7c0:00FF:10:0:255:254
 	    no shutdown
-
 ! Links to access layer switches
 
 	! > HQ-OFFICE-S1
