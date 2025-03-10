@@ -953,6 +953,19 @@ interface faX/X
 	! snooping
 	ip dhcp snooping limit rate 10
 
+
+! EtherChannel
+
+interface range faX/X - faX/X
+	no shu
+	switchport
+	channel-group 1 mode active
+
+interface Port-channel 1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 999
+
 ```
 
 
@@ -1076,6 +1089,30 @@ interface faX/X
 	spanning-tree bpduguard enable
 	! snooping
 	ip dhcp snooping limit rate 50
+
+
+! EtherChannel
+
+
+interface range faX/X - faX/X
+	no shu
+	switchport
+	channel-group 1 mode active
+
+interface Port-channel 1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 999
+
+interface range faX/X - faX/X
+	no shu
+	switchport
+	channel-group 2 mode active
+
+interface Port-channel 2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 999
 
 ```
 
@@ -1207,6 +1244,18 @@ interface faX/X
 	! snooping
 	ip dhcp snooping limit rate 10
 
+
+! EtherChannel
+
+interface range faX/X - faX/X
+	no shu
+	switchport
+	channel-group 2 mode active
+
+interface Port-channel 2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 999
 
 ```
 
