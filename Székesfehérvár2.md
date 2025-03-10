@@ -13,7 +13,10 @@ Hibák:
 - [x] NAT hiányzik
 - [x] Switch trunk port allowed vlanok túl engedékenyek
 - [x] Router config hiányos, nincs kiadva az ipv6 unicast-routing
-- [x] IPv6 címek eszköz része rossz
+- [ ] IPv6 címek eszköz része rossz, switcheken pedig a management interfaceeken egyáltalán nincs.
+- [ ] Van ahol pontok vannak kettőspont helyett az IPv6 címben
+- [ ] Nincsenek domain nevek konfigurálva
+- [ ] VLANok feleslegesen meg vannak adva minden switchen (csak a VTP szerveren kell és lehet)
 
 ## SzF-R:
 
