@@ -1,4 +1,11 @@
 #cisco #config
+
+Hibák
+---
+- [ ] HSRP rossz
+- [ ] Nyelvtani hiba a bannerben
+
+
 MLS
 ---
 ### SDM template
