@@ -13,7 +13,7 @@ Hibák:
 - [x] NAT hiányzik
 - [x] Switch trunk port allowed vlanok túl engedékenyek
 - [x] Router config hiányos, nincs kiadva az ipv6 unicast-routing
-- [ ] IPv6 címek eszköz része rossz, switcheken pedig a management interfaceeken egyáltalán nincs.
+- [x] IPv6 címek eszköz része rossz, switcheken pedig a management interfaceeken egyáltalán nincs.
 - [x] Van ahol pontok vannak kettőspont helyett az IPv6 címben
 - [x] Nincsenek domain nevek konfigurálva
 - [x] VLANok feleslegesen meg vannak adva minden switchen (csak a VTP szerveren kell és lehet)
@@ -96,7 +96,7 @@ interface GigabitEthernet0/0
 		ip address 10.1.10.1 255.255.255.0
 		ip nat inside
 		ipv6 enable
-		ipv6 address 2a:1dc:7c0:010A::1/64
+		ipv6 address 2a:1dc:7c0:010A:10:1:10:1/64
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 
@@ -105,7 +105,7 @@ interface GigabitEthernet0/0
 		ip address 10.1.20.1 255.255.255.0
 		ip nat inside
 		ipv6 enable
-		ipv6 address 2a:1dc:7c0:0114::1/64
+		ipv6 address 2a:1dc:7c0:0114:10:1:20:1/64
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 
@@ -114,7 +114,7 @@ interface GigabitEthernet0/0
 		ip address 10.1.50.1 255.255.255.0
 		ip nat inside
 		ipv6 enable
-		ipv6 address 2a:1dc:7c0:0132::1/64
+		ipv6 address 2a:1dc:7c0:0132:10:1:50:1/64
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 
@@ -123,7 +123,7 @@ interface GigabitEthernet0/0
 		ip address 10.1.110.1 255.255.252.0
 		ip nat inside
 		ipv6 enable
-		ipv6 address 2a:1dc:7c0:016E::1/64
+		ipv6 address 2a:1dc:7c0:016E:10:1:110:1/64
 		ip helper-address 10.0.70.20
 		ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 
