@@ -40,7 +40,7 @@ Ellenőrző checklist:
 	- [x] Routing protocol (probably EIGRP)
 
 ```
-hostname TB-RT
+hostname TB-R
 ip domain name tb.solardynamics.eu
 
 ipv6 unicast-routing
