@@ -83,7 +83,7 @@ interface GigabitEthernet1/0
 	ip address 82.1.79.145 255.255.255.240
  	ip nat outside
  	ipv6 enable
-	ipv6 address 2a:1dc:7c0:0300:82:1:79:145/64
+	ipv6 address 2a:1dc:7c0:03FF:82:1:79:145/64
 	no shutdown
 
 ! > SzF-SW1
@@ -132,7 +132,7 @@ interface GigabitEthernet0/0
 		ip address 10.1.252.1 255.255.252.0
 		ip nat inside
 		ipv6 enable
-		ipv6 address 2a:1dc:7c0:01FC:10:0:252:1/64
+		ipv6 address 2a:1dc:7c0:01FE:10:0:252:1/64
 
 
 
@@ -360,7 +360,7 @@ interface FastEthernet0/12
 !
 interface vlan 252
 	ip address 10.1.252.1 255.255.252.0
-	ipv6 address 2a:1dc:7c0:01FC:10:0:252:2/64
+	ipv6 address 2a:1dc:7c0:01FE:10:0:252:2/64
  	no shutdown
 	exit
 
@@ -472,7 +472,7 @@ interface Gig0/1
 !
 interface vlan 252
  	ip address 10.1.252.2 255.255.252.0
-	ipv6 address 2a:1dc:7c0:01FC:10:0:252:3/64
+	ipv6 address 2a:1dc:7c0:01FE:10:0:252:3/64
  	no shutdown
 ```
 
