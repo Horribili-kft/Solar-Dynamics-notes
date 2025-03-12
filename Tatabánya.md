@@ -7,7 +7,7 @@ prefix:telephely:vlan:ipv4
 2a:1dc:7c0:0314:3:20:1/64
 2a:1dc:7c0:031E:3:30:1/64
 2a:1dc:7c0:0396:3:150:1/64
-2a:1dc:7c0:03FC:3:252:1/64
+2a:1dc:7c0:03FE:3:252:1/64
 ```
 
 Eddigi hibák/feladatok késznek tűnnek, átnézésre várnak.
@@ -133,15 +133,15 @@ interface GigabitEthernet0/0.252
  ip address 10.3.252.1 255.255.252.0
  ip nat inside
  ipv6 enable
- ipv6 address 2a:1dc:7c0:03FC:10:3:252:1/64
+ ipv6 address 2a:1dc:7c0:03FE:10:3:252:1/64
 
-
-interface GigabitEthernet1/0
- no shutdown
- ip address 82.1.79.145 255.255.255.240
- ip nat outside
- ipv6 enable
- ipv6 address 2a:1dc:7c0:03FF:82:1:79:145/64
+! ISP
+	interface GigabitEthernet1/0
+		no shutdown
+		ip address 82.1.79.145 255.255.255.240
+		ip nat outside
+		ipv6 enable
+		ipv6 address 2a:1dc:7c0:03FF:82:1:79:145/64
 
 
 ! IP route
@@ -291,7 +291,7 @@ interface FastEthernet0/24
  no shu
 
 interface vlan 252
- ip address 10.3.254.2 255.255.252.0
+ ip address 10.3.254.1 255.255.252.0
  no shutdown
 
 ```
