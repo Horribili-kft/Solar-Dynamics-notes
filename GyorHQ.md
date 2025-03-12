@@ -601,7 +601,7 @@ ip ssh version 2
 
 	
 	! > R1
-	interface gig0/0
+	interface gig0/1
 		no switchport
 		ip address 172.16.0.3 255.255.255.254
 		ipv6 enable
@@ -609,7 +609,7 @@ ip ssh version 2
 		no shutdown
 	
 	! > R2
-	interface gig0/1
+	interface gig0/2
 		no switchport
 		ip address 172.16.0.7 255.255.255.254
 		ipv6 enable
