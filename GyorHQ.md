@@ -924,6 +924,7 @@ ip ssh version 2
 ! Router interfaces
 
 	! > HQ-MLS1
+	! interface gig0/0/0
 	interface gig0/0
 	    ip address 172.16.0.0 255.255.255.254
 	    ip nat inside
@@ -932,6 +933,7 @@ ip ssh version 2
 	    no shutdown
 	
 	! > HQ-MLS2
+	! interface gig0/0/1
 	interface gig1/0
 	    ip address 172.16.0.2 255.255.255.254
 		ip nat inside
@@ -940,11 +942,11 @@ ip ssh version 2
 	    no shutdown
 	    
 	! > ISP
+	! interface gig0
 	interface gig2/0
 	    ip address 82.1.79.1 255.255.255.0
 	    ip nat outside
 		ipv6 address 2a:1dc:7c0:00FF:82:1:79:1/64
-	    ipv6 eigrp 100
 	    no shutdown
 
 ! NAT configuration
@@ -1051,8 +1053,8 @@ ip ssh version 2
 		no auto-summary
 		router-id 3.3.3.3
 	    passive-interface default
-	    no passive-interface gig0/0
-	    no passive-interface gig1/0
+	    no passive-interface gig0/0/0
+	    no passive-interface gig0/0/1
 	    ! Tunnel config
 	    network 192.168.0.0 0.0.0.255
 	    no passive-interface tunnel0
@@ -1061,9 +1063,10 @@ ip ssh version 2
 	ipv6 router eigrp 100
 		router-id 3.3.3.3
 	    passive-interface default
-	    no passive-interface gig0/0
+		no passive-interface gig0/0
 	    no passive-interface gig1/0
-
+	    ! no passive-interface gig0/0/0
+	    ! no passive-interface gig0/0/1
 
 
 ```
