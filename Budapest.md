@@ -1,3 +1,11 @@
+Hibák
+---
+
+- [ ] A domain az hq.solardynamics.eu bp.solardynamics.eu helyett
+
+
+
+
 ### BP-MLS1
 ---
 
@@ -804,7 +812,7 @@ ip nat inside source static 10.2.70.10 82.1.79.38
 
 ! Interfaces
 
-! > HQ-MLS1
+! > BP-MLS1
 	interface Xx/x
 	    ip address 172.16.2.0 255.255.255.254
 	    ip nat inside
@@ -812,7 +820,7 @@ ip nat inside source static 10.2.70.10 82.1.79.38
 	    ipv6 eigrp 100
 	    no shutdown
 
-! > HQ-MLS2
+! > BP-MLS2
 	interface Xx/x
 	    ip address 172.16.2.2 255.255.255.254
 	    ip nat inside
@@ -860,14 +868,14 @@ ip nat inside source static 10.2.70.10 82.1.79.38
 			no shutdown
 			
 			! Public IP
-			tunnel source 82.1.79.145
+			tunnel source 82.1.79.33
 			
 			! Multipoint GRE for multiple site connection
 			tunnel mode gre multipoint
 			
 			! IP for inter tunnel communication
 			! Site number + 2
-			ip address 192.168.0.5 255.255.255.0
+			ip address 192.168.0.4 255.255.255.0
 			
 			! NHRP configuration
 				! NHRP for dynamic inter-site communication (must match on all sites)
@@ -890,13 +898,9 @@ ip nat inside source static 10.2.70.10 82.1.79.38
 				ip nhrp map multicast 85.16.100.3
 				ip nhrp map 192.168.0.2 85.16.100.3
 				ip nhrp nhs 192.168.0.2
-				
 
 			! ip mtu 1400
 			! ip tcp adjust-mss 1360
-
-
-
 
 
 ! EIGRP
