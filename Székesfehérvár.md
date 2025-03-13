@@ -80,10 +80,10 @@ ip nat inside source list SD-ACL-external-client pool SD-external-client-pool ov
 
 ! > ISP
 interface GigabitEthernet1/0
-	ip address 82.1.79.145 255.255.255.240
+	ip address 82.1.79.129 255.255.255.240
  	ip nat outside
  	ipv6 enable
-	ipv6 address 2a:1dc:7c0:03FF:82:1:79:145/64
+	ipv6 address 2a:1dc:7c0:03FF:82:1:79:129/64
 	no shutdown
 
 ! > SzF-SW1
