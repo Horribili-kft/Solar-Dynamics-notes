@@ -804,7 +804,7 @@ ip nat inside source static 10.2.70.10 82.1.79.38
 
 ! Interfaces
 
-! > HQ-MLS1
+! > BP-MLS1
 	interface Xx/x
 	    ip address 172.16.2.0 255.255.255.254
 	    ip nat inside
@@ -812,7 +812,7 @@ ip nat inside source static 10.2.70.10 82.1.79.38
 	    ipv6 eigrp 100
 	    no shutdown
 
-! > HQ-MLS2
+! > BP-MLS2
 	interface Xx/x
 	    ip address 172.16.2.2 255.255.255.254
 	    ip nat inside
