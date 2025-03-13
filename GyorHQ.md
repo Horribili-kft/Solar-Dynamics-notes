@@ -70,6 +70,7 @@ spanning-tree vlan 10,15,20,50,100,160,255 root secondary
 
 ! Remote access (SUBJECT TO CHANGE TO RADIUS)
 username solaire secret Solar-Dynamics-2025
+enable password Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
 login local
@@ -560,6 +561,7 @@ spanning-tree vlan 10,15,20,50,100,160,255 root primary
 
 ! Remote access (SUBJECT TO CHANGE TO RADIUS)
 username solaire secret Solar-Dynamics-2025
+enable password Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
 login local
@@ -915,6 +917,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 
 ! Remote access (SUBJECT TO CHANGE TO RADIUS)
 username solaire secret Solar-Dynamics-2025
+enable password Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
 login local
@@ -1107,6 +1110,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 
 ! Remote access (SUBJECT TO CHANGE TO RADIUS)
 username solaire secret Solar-Dynamics-2025
+enable password Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
 login local
@@ -1288,6 +1292,7 @@ spanning-tree mode rapid-pvst
 
 ! Remote access (SUBJECT TO CHANGE TO RADIUS)
 username solaire secret Solar-Dynamics-2025
+enable password Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
 login local
@@ -1397,6 +1402,7 @@ spanning-tree mode rapid-pvst
 
 ! Remote access (SUBJECT TO CHANGE TO RADIUS)
 username solaire secret Solar-Dynamics-2025
+enable password Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
 login local
@@ -1506,6 +1512,7 @@ spanning-tree mode rapid-pvst
 
 ! Remote access (SUBJECT TO CHANGE TO RADIUS)
 username solaire secret Solar-Dynamics-2025
+enable password Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
 login local
@@ -1603,6 +1610,7 @@ spanning-tree mode rapid-pvst
 
 ! Remote access (SUBJECT TO CHANGE TO RADIUS)
 username solaire secret Solar-Dynamics-2025
+enable password Solar-Dynamics-2025
 crypto key generate rsa general-keys modulus 2048
 line vty 0 15
 login local
