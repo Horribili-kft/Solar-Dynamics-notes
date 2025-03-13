@@ -804,7 +804,7 @@ ip nat inside source static 10.2.70.10 82.1.79.38
 
 ! Interfaces
 
-! > BP-MLS1
+! > HQ-MLS1
 	interface Xx/x
 	    ip address 172.16.2.0 255.255.255.254
 	    ip nat inside
@@ -812,7 +812,7 @@ ip nat inside source static 10.2.70.10 82.1.79.38
 	    ipv6 eigrp 100
 	    no shutdown
 
-! > BP-MLS2
+! > HQ-MLS2
 	interface Xx/x
 	    ip address 172.16.2.2 255.255.255.254
 	    ip nat inside
@@ -827,6 +827,76 @@ ip nat inside source static 10.2.70.10 82.1.79.38
         ipv6 address 2a:1dc:7c0:FFFF:82:1:79:33/64
 	    ipv6 eigrp 100
 	    no shutdown
+
+
+
+! Spoke
+! Site to site VPN configuration
+
+	! IPsec Configuration
+	crypto isakmp policy 10
+		encr aes 256
+		hash sha256
+		authentication pre-share
+		! 2048 bit Diffie-Hellman key exchange
+		group 14
+		lifetime 86400
+		
+	! Wildcard, because this hub will connect to multiple spokes
+	crypto isakmp key Solar-Dynamics-2025 address 82.1.79.1
+	crypto isakmp key Solar-Dynamics-2025-2 address 85.16.100.3
+	
+	crypto ipsec transform-set DMVPN-TRANSFORM-SET esp-aes 256 esp-sha256-hmac
+		mode transport
+	
+	crypto ipsec profile DMVPN-PROFILE
+		set transform-set DMVPN-TRANSFORM-SET
+	
+	interface Tunnel0
+		tunnel protection ipsec profile DMVPN-PROFILE
+
+	! GRE tunnel
+		interface tunnel0
+			no shutdown
+			
+			! Public IP
+			tunnel source 82.1.79.145
+			
+			! Multipoint GRE for multiple site connection
+			tunnel mode gre multipoint
+			
+			! IP for inter tunnel communication
+			! Site number + 2
+			ip address 192.168.0.5 255.255.255.0
+			
+			! NHRP configuration
+				! NHRP for dynamic inter-site communication (must match on all sites)
+				ip nhrp network-id 1
+				
+				! Tunnel key
+				tunnel key 123
+				
+				! Password authentication (8 char limit)
+				ip nhrp authentication Password
+
+				! Allow multicast traffic over the tunnel interfaces (this is the same for all sites)
+				
+				! HQ-R1 (Hub 1)
+				ip nhrp map multicast 82.1.79.1
+				ip nhrp map 192.168.0.1 82.1.79.1
+				ip nhrp nhs 192.168.0.1
+				
+				! HQ-R2 (Hub 2)
+				ip nhrp map multicast 85.16.100.3
+				ip nhrp map 192.168.0.2 85.16.100.3
+				ip nhrp nhs 192.168.0.2
+				
+
+			! ip mtu 1400
+			! ip tcp adjust-mss 1360
+
+
+
 
 
 ! EIGRP
