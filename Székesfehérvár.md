@@ -359,7 +359,7 @@ interface FastEthernet0/12
 	ip dhcp snooping limit rate 10
 !
 interface vlan 252
-	ip address 10.1.252.1 255.255.252.0
+	ip address 10.1.254.1 255.255.252.0
 	ipv6 address 2a:1dc:7c0:01FE:10:0:252:2/64
  	no shutdown
 	exit
@@ -471,7 +471,7 @@ interface Gig0/1
 	ip dhcp snooping limit rate 10
 !
 interface vlan 252
- 	ip address 10.1.252.2 255.255.252.0
+ 	ip address 10.1.254.2 255.255.252.0
 	ipv6 address 2a:1dc:7c0:01FE:10:0:252:3/64
  	no shutdown
 ```
