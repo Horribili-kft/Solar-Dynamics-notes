@@ -383,7 +383,7 @@ interface FastEthernet0/23
  no shu
 
 interface vlan 252
- ip address 10.3.254.3 255.255.252.0
+ ip address 10.3.254.2 255.255.252.0
  no shu
 
 ```
@@ -459,7 +459,7 @@ interface FastEthernet0/23
 
 
 interface vlan 252
- ip address 10.3.254.4 255.255.252.0
+ ip address 10.3.254.3 255.255.252.0
  no shutdown
 
 ```
