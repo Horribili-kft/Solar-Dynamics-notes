@@ -29,7 +29,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 
 ! Hostname
 hostname BP-MLS1
-ip domain name hq.solardynamics.eu
+ip domain name bp.solardynamics.eu
 
 ! Convenience
 no ip domain lookup
@@ -408,7 +408,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 
 ! Hostname
 hostname BP-MLS2
-ip domain name hq.solardynamics.eu
+ip domain name bp.solardynamics.eu
 
 
 ! Convenience
@@ -756,7 +756,7 @@ banner exec # WARNING: Unauthorized access is strictly prohibited. This device i
 
 ! Hostname
 hostname BP-R1
-ip domain name hq.solardynamics.eu
+ip domain name bp.solardynamics.eu
 
 
 ! Convenience
@@ -946,7 +946,7 @@ Switches:
 
 ! Hostname
 hostname BP-EM1-SW
-ip domain name hq.solardynamics.eu
+ip domain name bp.solardynamics.eu
 
 ! Convenience
 no ip domain lookup
@@ -1059,7 +1059,7 @@ interface Port-channel 1
 
 ! Hostname
 hostname BP-EM2-SW
-ip domain name hq.solardynamics.eu
+ip domain name bp.solardynamics.eu
 
 ! Convenience
 no ip domain lookup
@@ -1206,7 +1206,7 @@ interface Port-channel 2
 
 ! Hostname
 hostname BP-EM3-SW
-ip domain name hq.solardynamics.eu
+ip domain name bp.solardynamics.eu
 
 ! Convenience
 no ip domain lookup
