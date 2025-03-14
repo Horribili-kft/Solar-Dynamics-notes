@@ -642,7 +642,7 @@ interface vlan 150
     ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
     ! HSRP
     standby 150 version 2
-    standby 150 ip 10.0.150.1
+    standby 150 ip 10.2.150.1
     standby 150 priority 90
     standby 150 preempt
     !
@@ -661,7 +661,7 @@ interface vlan 150
 	ipv6 dhcp relay destination 2a:1dc:7c0:0046:10:0:70:20
 	! HSRP
     standby 252 version 2
-	standby 252 ip 10.0.253.1
+	standby 252 ip 10.2.253.1
 	standby 252 priority 90
 	standby 252 preempt
 	!
