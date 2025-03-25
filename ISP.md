@@ -26,7 +26,7 @@ ipv6 route 2a:1dc:7c0:0300::/56 gig3/0
 ! > HQ-R1
 interface gig0/0 
     ip address  82.1.79.30 255.255.255.224
-    ipv6 address 2a:1dc:7c0:01FF:82:1:79:30/64
+    ipv6 address 2a:1dc:7c0:00FF:82:1:79:30/64
     ip nat inside
     no shutdown
 
